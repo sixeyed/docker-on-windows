@@ -1,0 +1,86 @@
+version: '3'
+
+services:
+  
+  message-queue:
+    image: nats:nanoserver
+    networks:
+      - nd-net
+
+  elasticsearch:
+    image: sixeyed/elasticsearch:nanoserver
+    volumes:
+      - es-data:c:\data
+    networks:
+      - nd-net
+
+  nerd-dinner-db:
+    image: dockeronwindows/ch06-nerd-dinner-db
+    env_file:
+      - db-credentials.env
+    volumes:
+      - db-data:c:\database
+    networks:
+      - nd-net
+
+  kibana:
+    image: sixeyed/kibana:nanoserver
+    depends_on:
+      - elasticsearch
+    networks:
+      - nd-net
+
+  nerd-dinner-save-handler:
+    image: dockeronwindows/ch05-nerd-dinner-save-handler
+    depends_on:
+      - nerd-dinner-db
+      - message-queue
+    env_file:
+      - db-credentials.env
+    networks:
+      - nd-net
+
+  nerd-dinner-index-handler:
+    image: dockeronwindows/ch05-nerd-dinner-index-handler
+    depends_on:
+      - elasticsearch
+      - message-queue
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    networks:
+      - nd-net
+
+  nerd-dinner-homepage:
+    image: dockeronwindows/ch03-nerd-dinner-homepage
+    networks:
+      - nd-net
+
+  nerd-dinner-web:
+    image: dockeronwindows/ch05-nerd-dinner-web
+    environment: 
+      - HOMEPAGE_URL=http://nerd-dinner-homepage:5000
+      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    env_file:
+      - api-keys.env
+      - db-credentials.env
+    depends_on:
+      - nerd-dinner-homepage
+      - nerd-dinner-db
+      - message-queue
+    networks:
+      - nd-net
+
+networks:
+  nd-net:
+    external:
+      name: nerd-dinner-network
+
+volumes:
+  es-data:
+    external: 
+      name: nerd-dinner-elasticsearch-data
+
+  db-data:
+    external: 
+      name: nerd-dinner-database-data

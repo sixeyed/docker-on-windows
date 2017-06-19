@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.NetFx", "WebApi.NetFx\WebApi.NetFx.csproj", "{395A5BC8-A7C9-42FE-95E6-0E4EFADE3FFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{F80F8B54-0900-4FA9-8C0F-AFB8DEA8FF2D}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\bootstrap.ps1 = Docker\bootstrap.ps1
+		Docker\debug.ps1 = Docker\debug.ps1
+		Docker\docker-compose.debug.yml = Docker\docker-compose.debug.yml
+		Docker\docker-compose.yml = Docker\docker-compose.yml
+		Docker\Dockerfile = Docker\Dockerfile
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{395A5BC8-A7C9-42FE-95E6-0E4EFADE3FFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{395A5BC8-A7C9-42FE-95E6-0E4EFADE3FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{395A5BC8-A7C9-42FE-95E6-0E4EFADE3FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{395A5BC8-A7C9-42FE-95E6-0E4EFADE3FFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

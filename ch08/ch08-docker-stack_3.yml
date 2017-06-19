@@ -1,0 +1,119 @@
+version: "3"
+
+# TODO - ports and endpoint_mode not supported in v3
+# need to manually set services to dnsrr & publish ports after stack created
+
+services:
+
+  message-queue:
+    image: nats:nanoserver
+    networks:
+      - nd-net
+    deploy:    
+      placement:
+        constraints:
+          - 'node.platform.os == windows'
+      labels:
+        app.name: nerd-dinner
+
+  elasticsearch:
+    image: sixeyed/elasticsearch:nanoserver
+    volumes:
+      - es-data:c:\data
+    networks:
+      - nd-net
+    deploy:
+      placement:
+        constraints:
+          - 'node.platform.os == windows'          
+      labels:
+        app.name: nerd-dinner
+
+  nerd-dinner-db:
+    image: dockeronwindows/ch06-nerd-dinner-db
+    environment:
+      - sa_password=4jsZedB32!iSm__
+    volumes:
+      - db-data:c:\database
+    networks:
+      - nd-net
+    deploy:
+      placement:
+        constraints:
+          - 'node.platform.os == windows'
+      labels:
+        app.name: nerd-dinner
+
+  kibana:
+    image: sixeyed/kibana:nanoserver
+    networks:
+      - nd-net
+    deploy:
+      placement:
+        constraints:
+          - 'node.platform.os == windows'
+      labels:
+        app.name: nerd-dinner
+
+  nerd-dinner-save-handler:
+    image: dockeronwindows/ch05-nerd-dinner-save-handler
+    environment:
+      - APP_DB_CONNECTION_STRING=Data Source=nerd-dinner-db,1433;Initial Catalog=NerdDinner;User Id=sa;Password=4jsZedB32!iSm__;MultipleActiveResultSets=True;
+    networks:
+      - nd-net
+    deploy:
+      placement:
+        constraints:
+          - 'node.platform.os == windows'
+      labels:
+        app.name: nerd-dinner
+
+  nerd-dinner-index-handler:
+    image: dockeronwindows/ch05-nerd-dinner-index-handler
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    networks:
+      - nd-net
+    deploy:
+      placement:
+        constraints:
+          - 'node.platform.os == windows'          
+      labels:
+        app.name: nerd-dinner
+
+  nerd-dinner-homepage:
+    image: dockeronwindows/ch03-nerd-dinner-homepage
+    networks:
+      - nd-net
+    deploy:
+      placement:
+        constraints:
+          - 'node.platform.os == windows'
+      labels:
+        app.name: nerd-dinner
+
+  nerd-dinner-web:
+    image: dockeronwindows/ch05-nerd-dinner-web
+    environment: 
+      - HOMEPAGE_URL=http://nerd-dinner-homepage:5000
+      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+      - AUTH_DB_CONNECTION_STRING=Data Source=nerd-dinner-db,1433;Initial Catalog=NerdDinner;User Id=sa;Password=4jsZedB32!iSm__;
+      - APP_DB_CONNECTION_STRING=Data Source=nerd-dinner-db,1433;Initial Catalog=NerdDinner;User Id=sa;Password=4jsZedB32!iSm__;MultipleActiveResultSets=True;
+      - BING_MAPS_KEY=Alz2zeiE3TsCXl0FZrdjgX3PHRpELnEGMHFOxalnePfocOLIe2Vl9JzN8CzGwWLH
+      - IP_INFO_DB_KEY=a7593aaff69055862efe426544a894d7efb53491f4e82e5f3a8f6d99ca30cd4b 
+    networks:
+      - nd-net
+    deploy:
+      placement:
+        constraints:
+          - 'node.platform.os == windows'
+      labels:
+        app.name: nerd-dinner
+
+networks:
+  nd-net:
+
+volumes:
+  es-data:
+  db-data:

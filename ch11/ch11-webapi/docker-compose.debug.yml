@@ -1,0 +1,22 @@
+version: '2.1'
+
+services:
+  ch11-webapi:
+    build:
+      args:
+        source: CoreWebApi\bin\Debug\netcoreapp1.1\publish
+    labels:
+      - "com.microsoft.visualstudio.targetoperatingsystem=windows"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    volumes:
+#      - .:/app
+      - ~\clrdbg:\clrdbg:ro
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    external:
+      name: nat

@@ -1,0 +1,7 @@
+version: '3.1'
+
+services:
+  ch11-webapi-vs2015:
+    image: ch11-webapi-vs2015
+    networks:
+      - app-net

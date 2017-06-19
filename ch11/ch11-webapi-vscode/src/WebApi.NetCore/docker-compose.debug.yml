@@ -1,0 +1,24 @@
+version: '2.1'
+
+services:
+  webapi:
+    build:
+      args:
+        source: obj\Docker\empty
+    ports:
+      - 80
+    labels:
+      - "com.microsoft.visualstudio.targetoperatingsystem=windows"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    volumes:
+      - .\bin\Debug\netcoreapp1.1\win10-x64\publish:C:\app
+      - ~\.vscode\extensions\ms-vscode.csharp-1.10.0\.debugger:C:\vsdbg:ro
+
+#    entrypoint: tail -f /dev/null
+
+networks:
+  app-net:
+    external:
+      name: nat 

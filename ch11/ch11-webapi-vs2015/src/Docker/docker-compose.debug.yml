@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  ch11-webapi-vs2015:
+    build:
+      context: ..\
+      dockerfile: .\Docker\Dockerfile 
+      args:
+        - source=.\Docker\empty
+        - configuration=debug
+    ports:
+      - "3702/udp"
+      - "4020"
+      - "4021"
+    environment:
+      - configuration=debug
+    labels:
+      - "com.microsoft.visualstudio.targetoperatingsystem=windows"
+    volumes:
+      - ..\WebApi.NetFx:C:\web-app
+      
+networks:
+  app-net:
+    external:
+      name: nat

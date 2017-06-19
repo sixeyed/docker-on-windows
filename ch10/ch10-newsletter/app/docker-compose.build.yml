@@ -1,0 +1,18 @@
+version: '3.2'
+
+services:
+
+  signup-app:
+    build:
+      context: ../
+      dockerfile: ./docker/web/Dockerfile
+
+  signup-save-handler:
+    build:
+      context: ../
+      dockerfile: ./docker/save-handler/Dockerfile
+
+  signup-index-handler:
+    build:
+      context: ../
+      dockerfile: ./docker/index-handler/Dockerfile

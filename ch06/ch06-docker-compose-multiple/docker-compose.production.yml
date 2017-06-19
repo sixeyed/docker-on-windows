@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  elasticsearch:    
+    volumes:
+      - C:\nerd-dinner-elastic:c:\data
+
+  nerd-dinner-db:
+    volumes:
+      - C:\nerd-dinner-mssql:c:\database
+
+networks:
+  nd-net:
+    external:
+      name: nerd-dinner-network

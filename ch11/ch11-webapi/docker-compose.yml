@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  ch11-webapi:
+    image: ch11-webapi
+    build: .
+    ports:
+      - 3000:3000

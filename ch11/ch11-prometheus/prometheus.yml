@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 5s
+  external_labels:
+    monitor: 'local-monitor'
+
+scrape_configs:
+  - job_name: 'Api'
+    static_configs:
+      - targets: ['api:50505']
+  - job_name: 'Bonobo'
+    static_configs:
+      - targets: ['bonobo:50505']

@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  kibana:
+    ports:    
+      - "5601:5601"
+
+  nerd-dinner-web:
+    ports:
+      - "8081:8081"
+
+networks:
+  nd-net:
+    external:
+      name: nat

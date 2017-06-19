@@ -1,0 +1,85 @@
+version: '3'
+
+services:
+  
+  message-queue:
+    image: registry.sixeyed:5000/nats:nanoserver
+    networks:
+      - nd-net
+
+  elasticsearch:
+    image: registry.sixeyed:5000/sixeyed/elasticsearch:nanoserver
+    volumes:
+      - es-data:c:\data
+    networks:
+      - nd-net
+
+  nerd-dinner-db:
+    image: registry.sixeyed:5000/dockeronwindows/ch06-nerd-dinner-db
+    env_file:
+      - db-credentials.env
+    volumes:
+      - db-data:c:\database
+    networks:
+      - nd-net
+
+  kibana:
+    image: registry.sixeyed:5000/sixeyed/kibana:nanoserver
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - nd-net
+
+  nerd-dinner-save-handler:
+    image: registry.sixeyed:5000/dockeronwindows/ch05-nerd-dinner-save-handler
+    depends_on:
+      - nerd-dinner-db
+      - message-queue
+    env_file:
+      - db-credentials.env
+    networks:
+      - nd-net
+
+  nerd-dinner-index-handler:
+    image: registry.sixeyed:5000/dockeronwindows/ch05-nerd-dinner-index-handler
+    depends_on:
+      - elasticsearch
+      - message-queue
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    networks:
+      - nd-net
+
+  nerd-dinner-homepage:
+    image: registry.sixeyed:5000/dockeronwindows/ch03-nerd-dinner-homepage
+    networks:
+      - nd-net
+
+  nerd-dinner-web:
+    image: registry.sixeyed:5000/dockeronwindows/ch05-nerd-dinner-web
+    ports:
+      - "8081:8081"
+    environment: 
+      - HOMEPAGE_URL=http://nerd-dinner-homepage:5000
+      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    env_file:
+      - api-keys.env
+      - db-credentials.env
+    depends_on:
+      - nerd-dinner-homepage
+      - nerd-dinner-db
+      - message-queue
+    networks:
+      - nd-net
+
+networks:
+  nd-net:
+    external:
+      name: nat
+
+volumes:
+  es-data:
+  db-data:

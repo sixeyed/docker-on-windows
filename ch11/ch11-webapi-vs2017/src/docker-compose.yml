@@ -1,0 +1,11 @@
+version: '2.1'
+
+services:
+  webapi.netfx:
+    image: webapi.netfx
+    ports:
+      - "3702/udp"
+      - "4022"
+    build:
+      context: .\WebApi.NetFx
+      dockerfile: Dockerfile

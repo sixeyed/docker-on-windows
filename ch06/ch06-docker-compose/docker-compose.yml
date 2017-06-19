@@ -1,0 +1,53 @@
+notepad docker-compose
+
+  nerd-dinner-save-handler:
+    image: dockeronwindows/ch05-nerd-dinner-save-handler
+    depends_on:
+      - nerd-dinner-db
+      - message-queue
+    env_file:
+      - db-credentials.env
+    networks:
+      - nd-net
+
+  nerd-dinner-index-handler:
+    image: dockeronwindows/ch05-nerd-dinner-index-handler
+    depends_on:
+      - elasticsearch
+      - message-queue
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    networks:
+      - nd-net
+
+  nerd-dinner-homepage:
+    image: dockeronwindows/ch03-nerd-dinner-homepage
+    networks:
+      - nd-net
+
+  nerd-dinner-web:
+    image: dockeronwindows/ch05-nerd-dinner-web
+    ports:
+      - "8081:8081"
+    environment: 
+      - HOMEPAGE_URL=http://nerd-dinner-homepage:5000
+      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    env_file:
+      - api-keys.env
+      - db-credentials.env
+    depends_on:
+      - nerd-dinner-homepage
+      - nerd-dinner-db
+      - message-queue
+    networks:
+      - nd-net
+
+networks:
+  nd-net:
+    external:
+      name: nat
+
+volumes:
+  es-data:
+  db-data:
