@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace ConsoleApplication
+namespace HelloWorld.NetCore
 {
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Hello World, from .NET Core on Docker!");
+            Console.WriteLine("Hello World!");
         }
     }
 }

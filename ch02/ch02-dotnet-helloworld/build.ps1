@@ -1,6 +1,4 @@
 
-dotnet restore src
+dotnet restore src; dotnet publish src
 
-dotnet publish src -o bin
-
-docker build -f slim.dockerfile -t dockeronwindows/ch02-dotnet-helloworld:slim .
+docker image build --file Dockerfile.slim --tag dockeronwindows/ch02-dotnet-helloworld:slim .

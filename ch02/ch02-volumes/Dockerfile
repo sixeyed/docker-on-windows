@@ -1,7 +1,7 @@
+# escape=`
 FROM microsoft/nanoserver
 
-VOLUME c:\\temp
-
-VOLUME c:\\logs\\for\\app
+VOLUME C:\app\config
+VOLUME C:\app\logs
 
 ENTRYPOINT powershell

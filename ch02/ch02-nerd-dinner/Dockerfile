@@ -1,27 +1,28 @@
 # escape=`
+FROM sixeyed/msbuild:netfx-4.5.2-webdeploy-10.0.14393.1198 AS builder
 
-FROM microsoft/windowsservercore
-SHELL ["powershell", "-command"]
+WORKDIR C:\src\NerdDinner
+COPY src\NerdDinner\packages.config .
+RUN nuget restore packages.config -PackagesDirectory ..\packages
 
-RUN Install-WindowsFeature Web-Server
-RUN Install-WindowsFeature NET-Framework-45-ASPNET
-RUN Install-WindowsFeature Web-Asp-Net45
+COPY src C:\src
+RUN msbuild NerdDinner.csproj /p:OutputPath=c:\out\NerdDinner `
+        /p:DeployOnBuild=true /p:VSToolsPath=C:\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\tools\VSToolsPath
 
-COPY nerd-dinner c:\nerd-dinner
-
-RUN Remove-Website -Name 'Default Web Site'
-RUN New-Website -Name 'nerd-dinner' `
-                -Port 8081 -PhysicalPath 'c:\nerd-dinner' `
-                -ApplicationPool '.NET v4.5'
+# app image
+FROM microsoft/aspnet:windowsservercore-10.0.14393.1198
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 ENV BING_MAPS_KEY bing_maps_key
+WORKDIR C:\nerd-dinner
+
+RUN Remove-Website -Name 'Default Web Site'; `
+    New-Website -Name 'nerd-dinner' `
+                -Port 80 -PhysicalPath 'c:\nerd-dinner' `
+                -ApplicationPool '.NET v4.5'
 
 RUN & c:\windows\system32\inetsrv\appcmd.exe `
       unlock config `
       /section:system.webServer/handlers
 
-# sql localdb http://download.microsoft.com/download/8/D/D/8DD7BDBA-CEF7-4D8E-8C16-D9F69527F909/ENU/x64/SqlLocalDB.MSI
-
-# final rUN:
-
-
+COPY --from=builder C:\out\NerdDinner\_PublishedWebsites\NerdDinner C:\nerd-dinner

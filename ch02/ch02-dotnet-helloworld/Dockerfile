@@ -1,9 +1,7 @@
-FROM microsoft/dotnet:nanoserver
-
-COPY src/ /src/
+FROM microsoft/dotnet:1.1-sdk-nanoserver
 
 WORKDIR /src
-RUN dotnet restore
-RUN dotnet build
+COPY src/ .
 
+RUN dotnet restore; dotnet build
 CMD ["dotnet", "run"]
