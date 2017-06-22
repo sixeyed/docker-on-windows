@@ -1,3 +1,8 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: #2185D0 !important;
+}
 .hidden.menu {
     display: none;
 }
