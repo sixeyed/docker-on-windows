@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 services:
   
@@ -9,6 +9,8 @@ services:
 
   elasticsearch:
     image: sixeyed/elasticsearch:nanoserver
+    environment: 
+     - ES_JAVA_OPTS=-Xms512m -Xmx512m
     volumes:
       - es-data:c:\data
     networks:
@@ -19,7 +21,7 @@ services:
     env_file:
       - db-credentials.env
     volumes:
-      - db-data:c:\database
+      - db-data:C:\data
     networks:
       - nd-net
 
@@ -61,9 +63,9 @@ services:
   nerd-dinner-web:
     image: dockeronwindows/ch05-nerd-dinner-web
     ports:
-      - "8081:8081"
+      - "80:80"
     environment: 
-      - HOMEPAGE_URL=http://nerd-dinner-homepage:5000
+      - HOMEPAGE_URL=http://nerd-dinner-homepage
       - MESSAGE_QUEUE_URL=nats://message-queue:4222
     env_file:
       - api-keys.env

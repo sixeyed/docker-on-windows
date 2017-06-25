@@ -1,14 +1,14 @@
-version: '3'
+version: '3.3'
 
 services:
 
   elasticsearch:    
     volumes:
-      - C:\nerd-dinner-elastic:c:\data
+      - E:\nerd-dinner-elastic:C:\data
 
   nerd-dinner-db:
     volumes:
-      - C:\nerd-dinner-mssql:c:\database
+      - E:\nerd-dinner-mssql:C:\data
 
 networks:
   nd-net:

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 services:
   
@@ -10,7 +10,7 @@ services:
   elasticsearch:
     image: sixeyed/elasticsearch:nanoserver
     volumes:
-      - es-data:c:\data
+      - es-data:C:\data
     networks:
       - nd-net
 
@@ -19,7 +19,7 @@ services:
     env_file:
       - db-credentials.env
     volumes:
-      - db-data:c:\database
+      - db-data:C:\data
     networks:
       - nd-net
 
@@ -59,7 +59,7 @@ services:
   nerd-dinner-web:
     image: dockeronwindows/ch05-nerd-dinner-web
     environment: 
-      - HOMEPAGE_URL=http://nerd-dinner-homepage:5000
+      - HOMEPAGE_URL=http://nerd-dinner-homepage
       - MESSAGE_QUEUE_URL=nats://message-queue:4222
     env_file:
       - api-keys.env
