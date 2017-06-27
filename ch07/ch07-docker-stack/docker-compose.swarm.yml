@@ -1,0 +1,90 @@
+version: '3.3'
+
+services:
+
+  message-queue:
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.platform.os == windows
+
+  elasticsearch:
+    environment:
+      - ES_JAVA_OPTS=-Xms768m -Xmx768m
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.platform.os == windows
+
+  nerd-dinner-db:
+    secrets:
+      - nerd-dinner-sa.password
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.platform.os == windows
+
+  kibana:
+    ports:
+     - mode: host
+       published: 5601
+       target: 5601
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.platform.os == windows
+
+  nerd-dinner-save-handler:
+    secrets:
+      - nerd-dinner.connectionstring
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.platform.os == windows
+
+  nerd-dinner-index-handler:
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.platform.os == windows
+
+  nerd-dinner-homepage:
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.platform.os == windows
+
+  nerd-dinner-web:
+    ports:
+     - mode: host
+       published: 80
+       target: 80
+    secrets:
+      - nerd-dinner.connectionstring
+      - nerd-dinner-bing-maps.apikey
+      - nerd-dinner-ip-info-db.apikey
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.platform.os == windows
+
+secrets:
+  nerd-dinner-bing-maps.apikey:
+    external: true
+
+  nerd-dinner-ip-info-db.apikey:
+    external: true
+  
+  nerd-dinner-sa.password:
+    external: true
+
+  nerd-dinner.connectionstring:
+    external: true

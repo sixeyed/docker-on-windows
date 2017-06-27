@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+
+  nerd-dinner-db:
+    ports:    
+      - "1433"
+    env_file:
+      - db-credentials.env
+
+  elasticsearch:
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+
+  kibana:
+    ports:    
+      - "5601"
+    depends_on:
+      - elasticsearch
+
+  nerd-dinner-web:
+    ports:
+      - "80"    
+    depends_on:
+      - nerd-dinner-homepage
+      - nerd-dinner-db
+      - message-queue
+    env_file:
+      - api-keys.env
+      - db-credentials.env
+
+  nerd-dinner-index-handler:
+    depends_on:
+      - elasticsearch
+      - message-queue
+
+  nerd-dinner-save-handler:
+    depends_on:
+      - nerd-dinner-db
+      - message-queue
+    env_file:
+      - db-credentials.env
+
+networks:
+  nd-net:
+    external:
+      name: nat
