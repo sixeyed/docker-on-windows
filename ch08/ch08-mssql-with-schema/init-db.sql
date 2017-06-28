@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [DockerOnWindows]    Script Date: 03/05/2017 08:22:44 ******/
+
 CREATE DATABASE [DockerOnWindows]
  CONTAINMENT = NONE
  ON  PRIMARY 

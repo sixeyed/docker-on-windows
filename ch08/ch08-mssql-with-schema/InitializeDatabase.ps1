@@ -17,6 +17,9 @@ if ($sa_password -ne "_") {
  
 Invoke-Sqlcmd -InputFile C:\init\init-db.sql -Verbose
 
-# TODO - use ServiceMonitor.exe when it gets open-sourced (https://github.com/Microsoft/iis-docker/issues/1)
-Write-Verbose "Started SQL Server."
-while ($true) { Start-Sleep -Seconds 3600 }
+$lastCheck = (Get-Date).AddSeconds(-2) 
+while ($true) { 
+    Get-EventLog -LogName Application -Source "MSSQL*" -After $lastCheck | Select-Object TimeGenerated, EntryType, Message	 
+    $lastCheck = Get-Date 
+    Start-Sleep -Seconds 2 
+}
