@@ -1,7 +1,7 @@
 # escape=`
 
 # build agent
-FROM sixeyed/msbuild:4.5.2-webdeploy AS builder
+FROM sixeyed/msbuild:netfx-4.5.2 AS builder
 
 WORKDIR C:\src
 COPY src C:\src
