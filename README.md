@@ -39,6 +39,9 @@ I've also got a blog series describing all the Dockerfiles in detail: [Weekly Wi
 
 ## Cover Art
 
-![Docker on Windows by Elton Stoneman, cover page](docker-on-windows.png)
+![Docker on Windows by Elton Stoneman, cover page](docker-on-windows.jpg)
 
+## Reviews
+
+* [InfoQ - Book Review Docker on Windows by Elton Stoneman](https://www.infoq.com/news/2017/08/docker-windows-elton-stoneman)
 
