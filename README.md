@@ -7,6 +7,10 @@ Every Dockerfile is also available on Docker Hub at the [dockeronwindows](https:
 
 It's a comprehensive look at running Docker on Windows, covering everything from 101 to production over 12 chapters.
 
+## Weekly Dockerfile
+
+I've also got a blog series describing all the Dockerfiles in detail: [Weekly Windows Dockerfiles](https://blog.sixeyed.com/tag/weekly-dockerfile/)
+
 ## Contents
 
 1. Getting Started with Docker on Windows
@@ -35,6 +39,6 @@ It's a comprehensive look at running Docker on Windows, covering everything from
 
 ## Cover Art
 
-![Docker on Windows by Elton Stoneman, cover page](cover-page.png)
+![Docker on Windows by Elton Stoneman, cover page](docker-on-windows.png)
 
 
