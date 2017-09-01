@@ -1,7 +1,3 @@
-## [Windows Weekly Dockerfile #4](https://blog.sixeyed.com/windows-weekly-dockerfile-4/)
+[Windows Weekly Dockerfile #4](https://blog.sixeyed.com/windows-weekly-dockerfile-4/) - for [Dockerfile](Dockerfile).
 
-For [Dockerfile](Dockerfile).
-
-## [Windows Weekly Dockerfile #5](https://blog.sixeyed.com/windows-weekly-dockerfile-5/)
-
-For [Dockerfile.slim](Dockerfile.slim).
+[Windows Weekly Dockerfile #5](https://blog.sixeyed.com/windows-weekly-dockerfile-5/) - for [Dockerfile.slim](Dockerfile.slim).
