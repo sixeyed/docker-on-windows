@@ -43,5 +43,7 @@ I've also got a blog series describing all the Dockerfiles in detail: [Weekly Wi
 
 ## Reviews
 
+* [Amazon - customer reviews for Docker on Windows](https://www.amazon.co.uk/Docker-Windows-Elton-Stoneman-ebook/dp/B0711Y4J9K#customerReviews)
+
 * [InfoQ - Book Review Docker on Windows by Elton Stoneman](https://www.infoq.com/news/2017/08/docker-windows-elton-stoneman)
 
