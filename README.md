@@ -11,6 +11,10 @@ It's a comprehensive look at running Docker on Windows, covering everything from
 
 I've also got a blog series describing all the Dockerfiles in detail: [Weekly Windows Dockerfiles](https://blog.sixeyed.com/tag/weekly-dockerfile/)
 
+## The Missing Preface
+
+Somewhere between the author's laptop, the publisher's content system and the printing press, the preface I wrote didn't make it into the final book. You can read it [here](preface.md).
+
 ## Contents
 
 1. Getting Started with Docker on Windows

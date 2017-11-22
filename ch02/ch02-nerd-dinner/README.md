@@ -1,0 +1,1 @@
+[Weekly Windows Dockerfile #12](https://blog.sixeyed.com/windows-weekly-dockerfile-12-nerddinner/)

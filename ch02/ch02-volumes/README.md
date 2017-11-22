@@ -1,0 +1,1 @@
+[Weekly Windows Dockerfile #10](https://blog.sixeyed.com/weekly-windows-dockerfile-10-volumes/)

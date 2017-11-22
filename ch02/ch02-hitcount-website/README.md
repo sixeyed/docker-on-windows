@@ -1,0 +1,1 @@
+[Weekly Windows Dockerfile #11](https://blog.sixeyed.com/windows-weekly-dockerfile-11-a-stateful-asp-net-core-app/)
