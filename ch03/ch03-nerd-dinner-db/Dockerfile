@@ -8,7 +8,7 @@ RUN msbuild NerdDinner.Database.sqlproj `
     /p:SqlServerRedistPath="C:\Microsoft.Data.Tools.Msbuild.10.0.61026\lib\net40"
 
 # db image
-FROM microsoft/mssql-server-windows-express
+FROM microsoft/mssql-server-windows-express:2016-sp1
 
 ENV ACCEPT_EULA="Y" `
     DATA_PATH="C:\data" `
