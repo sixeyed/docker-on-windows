@@ -15,4 +15,4 @@ So:
 
 ## Usage
 
-See [Windows Weekly Dockerfile #20](TODO).
+See [Windows Weekly Dockerfile #20](https://blog.sixeyed.com/windows-weekly-dockerfile-20-running-your-own-registry/).
