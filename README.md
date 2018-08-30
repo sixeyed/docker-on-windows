@@ -51,3 +51,4 @@ Somewhere between the author's laptop, the publisher's content system and the pr
 
 * [InfoQ - Book Review Docker on Windows by Elton Stoneman](https://www.infoq.com/news/2017/08/docker-windows-elton-stoneman)
 
+* [實戰 Docker｜使用 Windows Server 2016/Windows 10](https://www.tenlong.com.tw/products/9789864767915) (Traditional Chinese, Taiwan)
