@@ -1,7 +1,8 @@
 # escape=`
-FROM microsoft/nanoserver
+FROM mcr.microsoft.com/windows/nanoserver:1809
 
 VOLUME C:\app\config
 VOLUME C:\app\logs
 
-ENTRYPOINT powershell
+USER ContainerAdministrator
+ENTRYPOINT cmd /S /C

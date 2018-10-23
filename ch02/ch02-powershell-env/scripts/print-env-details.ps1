@@ -1,2 +1,1 @@
-
 Get-ChildItem Env:
