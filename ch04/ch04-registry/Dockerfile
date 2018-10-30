@@ -1,26 +1,22 @@
 # escape=`
-FROM golang:1.10.0-windowsservercore-ltsc2016 AS builder
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+FROM sixeyed/golang:1.11.1-nanoserver-1809 AS builder
 
-ARG REGISTRY_VERSION=v2.6.2
+ARG REGISTRY_VERSION="v2.6.2"
 
 WORKDIR C:\gopath\src\github.com\docker
 
-RUN git clone https://github.com/docker/distribution.git; `
-    cd distribution; `
-    git checkout $env:REGISTRY_VERSION; `
+RUN git clone https://github.com/docker/distribution.git & `
+    cd distribution & `
+    git checkout %REGISTRY_VERSION% & `
     go build -o C:\out\registry.exe .\cmd\registry
 
-# registry image
-FROM microsoft/nanoserver:sac2016
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+# Registry
+FROM mcr.microsoft.com/windows/nanoserver:1809
 
-ENV DATA_PATH="C:\data" `
-    REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY="G:\\"
+ENV REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY="C:\data"
 
-RUN Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\DOS Devices' -Name 'G:' -Value "\??\$($env:DATA_PATH)" -Type String
-
-VOLUME ${DATA_PATH}
+USER ContainerAdministrator
+VOLUME ${REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY}
 EXPOSE 5000
 
 WORKDIR C:\registry
