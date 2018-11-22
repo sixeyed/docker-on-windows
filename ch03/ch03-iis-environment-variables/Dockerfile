@@ -1,7 +1,5 @@
 # escape=`
-#TODO - fix base image
-#FROM microsoft/aspnet:windowsservercore-1809
-FROM sixeyed/aspnet:windowsservercore-1809
+FROM mcr.microsoft.com/dotnet/framework/aspnet
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # configure IIS to write a global log file:

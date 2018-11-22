@@ -1,5 +1,5 @@
 # escape=`
-FROM sixeyed/msbuild:netfx-4.5.2-webdeploy AS builder
+FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019 AS builder
 
 WORKDIR C:\src\Healthcheck.WebApi
 COPY src\Healthcheck.WebApi\packages.config .
@@ -10,7 +10,7 @@ RUN msbuild Healthcheck.WebApi.csproj /p:OutputPath=c:\out\Healthcheck `
         /p:DeployOnBuild=true /p:VSToolsPath=C:\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\tools\VSToolsPath
 
 # app image
-FROM microsoft/aspnet:windowsservercore
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # configure IIS to write a global log file:

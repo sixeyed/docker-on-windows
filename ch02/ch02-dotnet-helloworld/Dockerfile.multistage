@@ -7,8 +7,7 @@ COPY src/ .
 RUN dotnet restore && dotnet publish
 
 # final image stage
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1809
-#TODO - should be :2.1-runtime-nanoserver-1809
+FROM microsoft/dotnet:2.1-runtime-nanoserver-1809
 
 WORKDIR /dotnetapp
 COPY --from=builder /src/bin/Debug/netcoreapp2.1/publish .

@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/aspnet:4.6.2-windowsservercore-10.0.14393.1884
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 WORKDIR C:\iis-env
