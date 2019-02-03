@@ -33,7 +33,7 @@ else {
 }
 
 # deploy or upgrade the database:
-$SqlPackagePath = 'C:\Program Files (x86)\Microsoft SQL Server\130\DAC\bin\SqlPackage.exe'
+$SqlPackagePath = 'C:\Program Files\Microsoft SQL Server\140\DAC\bin\SqlPackage.exe'
 & $SqlPackagePath  `
     /sf:NerdDinner.Database.dacpac `
     /a:Script /op:deploy.sql /p:CommentOutSetVarDeclarations=true `

@@ -4,7 +4,7 @@ docker image build -t dockeronwindows/ch02-static-website:2e ./ch02-static-websi
 
 docker image build -t dockeronwindows/ch02-powershell-env:2e ./ch02-powershell-env
 
-#TODO - ch02-nerd-dinner
+docker image build -t dockeronwindows/ch02-nerd-dinner:2e ./ch02-nerd-dinner
 
 docker image build -t dockeronwindows/ch02-hitcount-website:2e ./ch02-hitcount-website
 

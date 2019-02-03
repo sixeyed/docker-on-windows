@@ -1,0 +1,1 @@
+docker image build -t dockeronwindows/ch04-registry:2e ./ch04-registry

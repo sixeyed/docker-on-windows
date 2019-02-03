@@ -1,7 +1,5 @@
 # escape=`
-#TODO - base image
-#FROM microsoft/iis:windowsservercore-1809
-FROM sixeyed/iis:windowsservercore-1809
+FROM mcr.microsoft.com/windows/servercore/iis:windowsservercore-ltsc2019
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # configure IIS to write a global log file:

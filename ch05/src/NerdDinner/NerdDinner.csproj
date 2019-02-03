@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NerdDinner</RootNamespace>
     <AssemblyName>NerdDinner</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -24,6 +24,7 @@
     <RestorePackages>true</RestorePackages>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -93,9 +94,6 @@
     <Reference Include="NATS.Client, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NATS.Client.0.7.0\lib\net45\NATS.Client.DLL</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="NerdDinner.Messaging">
-      <HintPath>..\NerdDinner.Messaging\bin\Debug\net452\NerdDinner.Messaging.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -385,6 +383,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NerdDinner.Messaging\NerdDinner.Messaging.csproj">
+      <Project>{7a37c4e7-19b5-4699-acd0-bddbf0c9c85f}</Project>
+      <Name>NerdDinner.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NerdDinner.Model\NerdDinner.Model.csproj">
       <Project>{8be3f181-c678-48f7-a83c-11e93c03ae21}</Project>
       <Name>NerdDinner.Model</Name>

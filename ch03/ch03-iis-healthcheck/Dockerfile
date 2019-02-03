@@ -1,13 +1,14 @@
 # escape=`
 FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019 AS builder
 
-WORKDIR C:\src\Healthcheck.WebApi
-COPY src\Healthcheck.WebApi\packages.config .
-RUN nuget restore packages.config -PackagesDirectory ..\packages
+WORKDIR C:\src
+COPY src\Healthcheck.WebApi.sln .
+COPY src\Healthcheck.WebApi\Healthcheck.WebApi.csproj .\Healthcheck.WebApi\
+COPY src\Healthcheck.WebApi\packages.config .\Healthcheck.WebApi\
+RUN nuget restore Healthcheck.WebApi.sln
 
 COPY src C:\src
-RUN msbuild Healthcheck.WebApi.csproj /p:OutputPath=c:\out\Healthcheck `
-        /p:DeployOnBuild=true /p:VSToolsPath=C:\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\tools\VSToolsPath
+RUN msbuild Healthcheck.WebApi\Healthcheck.WebApi.csproj /p:OutputPath=c:\out /p:Configuration=Release
 
 # app image
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
@@ -36,4 +37,4 @@ HEALTHCHECK --interval=5s `
 COPY bootstrap.ps1 C:\
 ENTRYPOINT ["powershell", "C:\\bootstrap.ps1"]
 
-COPY --from=builder C:\out\Healthcheck\_PublishedWebsites\Healthcheck.WebApi c:\healthcheck-api
+COPY --from=builder C:\out\_PublishedWebsites\Healthcheck.WebApi c:\healthcheck-api

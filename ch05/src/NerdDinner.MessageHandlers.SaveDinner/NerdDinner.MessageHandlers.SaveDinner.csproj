@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NerdDinner.MessageHandlers.SaveDinner</RootNamespace>
     <AssemblyName>NerdDinner.MessageHandlers.SaveDinner</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,9 +50,6 @@
       <HintPath>..\packages\NATS.Client.0.7.0\lib\net45\NATS.Client.DLL</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NerdDinner.Messaging">
-      <HintPath>..\NerdDinner.Messaging\bin\Debug\net452\NerdDinner.Messaging.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -74,6 +72,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NerdDinner.Messaging\NerdDinner.Messaging.csproj">
+      <Project>{7a37c4e7-19b5-4699-acd0-bddbf0c9c85f}</Project>
+      <Name>NerdDinner.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NerdDinner.Model\NerdDinner.Model.csproj">
       <Project>{8be3f181-c678-48f7-a83c-11e93c03ae21}</Project>
       <Name>NerdDinner.Model</Name>
