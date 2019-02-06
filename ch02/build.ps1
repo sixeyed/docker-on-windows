@@ -6,7 +6,7 @@ docker image build -t dockeronwindows/ch02-powershell-env:2e ./ch02-powershell-e
 
 docker image build -t dockeronwindows/ch02-nerd-dinner:2e ./ch02-nerd-dinner
 
-docker image build -t dockeronwindows/ch02-hitcount-website:2e ./ch02-hitcount-website
+docker image build -t dockeronwindows/ch02-hitcount-website:2e-v1 ./ch02-hitcount-website
 
 docker image build -t dockeronwindows/ch02-fs-1:2e ./ch02-fs-1
 
