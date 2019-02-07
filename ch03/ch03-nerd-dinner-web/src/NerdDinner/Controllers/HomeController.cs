@@ -15,10 +15,8 @@ namespace NerdDinner.Controllers
         private StreamWriter _Log;
 
         static HomeController()
-        {
-            System.IO.File.WriteAllText("C:\\nerd-dinner\\log.txt", "HomeController");
-            var homepageUrl = Environment.GetEnvironmentVariable("HOMEPAGE_URL", EnvironmentVariableTarget.Process);
-            System.IO.File.AppendAllText("C:\\nerd-dinner\\log.txt", $"HOMEPAGE_URL: {homepageUrl}");
+        {            
+            var homepageUrl = Environment.GetEnvironmentVariable("HOMEPAGE_URL", EnvironmentVariableTarget.Machine);            
             if (!string.IsNullOrEmpty(homepageUrl))
             {
                 var request = WebRequest.Create(homepageUrl);
@@ -26,22 +24,18 @@ namespace NerdDinner.Controllers
                 using (var responseStream = new StreamReader(response.GetResponseStream()))
                 {
                     _NewHomePageHtml = responseStream.ReadToEnd();
-                    System.IO.File.AppendAllText("C:\\nerd-dinner\\log.txt", $"_NewHomePageHtml: {_NewHomePageHtml}");
                 }
             } 
         }
         
         public ActionResult Index()
         {
-            System.IO.File.AppendAllText("C:\\nerd-dinner\\log.txt", "Index");
             if (!string.IsNullOrEmpty(_NewHomePageHtml))
             {
-                System.IO.File.AppendAllText("C:\\nerd-dinner\\log.txt", "new");
                 return Content(_NewHomePageHtml);
             }
             else
             {
-                System.IO.File.AppendAllText("C:\\nerd-dinner\\log.txt", "find");
                 return Find();
             }
         }
