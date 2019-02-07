@@ -34,7 +34,10 @@ HEALTHCHECK --interval=5s `
      else {return 1}; `
     } catch { return 1 }
 
-COPY bootstrap.ps1 C:\
-ENTRYPOINT ["powershell", "C:\\bootstrap.ps1"]
+ENTRYPOINT ["powershell"]
+CMD Start-Process -NoNewWindow -FilePath C:\ServiceMonitor.exe -ArgumentList w3svc; `
+    Invoke-WebRequest http://localhost/diagnostics -UseBasicParsing | Out-Null; `
+    netsh http flush logbuffer | Out-Null; `
+    Get-Content -path 'C:\iislog\W3SVC\u_extend1.log' -Tail 1 -Wait 
 
 COPY --from=builder C:\out\_PublishedWebsites\Healthcheck.WebApi c:\healthcheck-api

@@ -1,3 +1,5 @@
+docker image build -t dockeronwindows/ch03-aspnet-config:2e ./ch03-aspnet-config
+
 docker image build -t dockeronwindows/ch03-iis-environment-variables:2e ./ch03-iis-environment-variables
 
 docker image build -t dockeronwindows/ch03-iis-environment-variables:2e-servicemonitor -f Dockerfile.servicemonitor ./ch03-iis-environment-variables

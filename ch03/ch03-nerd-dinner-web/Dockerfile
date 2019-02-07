@@ -19,7 +19,7 @@ RUN Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applic
     Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applicationHost/log/centralW3CLogFile' -n 'directory' -v 'c:\iislog'
 
 ENV SA_PASSWORD="N3rdD!Nne720^6" `
-    HOMEPAGE_URL="http://nerd-dinner-homepage"
+    HOMEPAGE_URL=""
 
 WORKDIR C:\nerd-dinner
 RUN Remove-Website -Name 'Default Web Site'; `
@@ -39,7 +39,10 @@ HEALTHCHECK --interval=5s `
      else {return 1}; `
     } catch { return 1 }
 
-COPY bootstrap.ps1 C:\
-ENTRYPOINT ["powershell", "C:\\bootstrap.ps1"]
+ENTRYPOINT ["powershell"]
+CMD Start-Process -NoNewWindow -FilePath C:\ServiceMonitor.exe -ArgumentList w3svc; `
+    Invoke-WebRequest http://localhost -UseBasicParsing | Out-Null; `
+    netsh http flush logbuffer | Out-Null; `
+    Get-Content -path 'C:\iislog\W3SVC\u_extend1.log' -Tail 1 -Wait 
 
 COPY --from=builder C:\out\_PublishedWebsites\NerdDinner C:\nerd-dinner
