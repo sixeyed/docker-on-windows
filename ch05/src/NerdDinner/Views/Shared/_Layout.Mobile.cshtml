@@ -27,8 +27,8 @@
 
     <script>
         function GetMap() {
-            NerdDinner.ipInfoDbKey = '@NerdDinner.Env.IpInfoDbKey';
-            NerdDinner.BingMapsKey = '@NerdDinner.Env.BingMapsKey';
+            NerdDinner.ipInfoDbKey = '@NerdDinner.Core.Config.Current["Apis:IpInfoDb:Key"]';
+            NerdDinner.BingMapsKey = '@NerdDinner.Core.Config.Current["Apis:BingMaps:Key"]';
             NerdDinner.InitMap();
             onMapLoaded();
         }

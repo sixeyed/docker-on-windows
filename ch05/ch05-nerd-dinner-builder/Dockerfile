@@ -5,4 +5,4 @@ WORKDIR C:\src
 COPY src .
 
 RUN nuget restore
-RUN msbuild NerdDinner.sln /p:Configuration=Release
+RUN msbuild NerdDinner.sln /p:Configuration=Release /p:OutputPath=c:\out

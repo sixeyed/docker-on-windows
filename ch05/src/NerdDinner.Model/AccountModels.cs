@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Configuration;
+using NerdDinner.Core;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
@@ -7,7 +9,7 @@ namespace NerdDinner.Models
     public class UsersContext : DbContext
     {
         public UsersContext()
-            : base(Env.AuthDbConnectionString)
+            : base(Config.Current.GetConnectionString("UsersContext"))
         {
         }
 

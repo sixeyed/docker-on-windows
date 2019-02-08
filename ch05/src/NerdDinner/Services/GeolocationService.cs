@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.Caching;
 using System.Xml.Linq;
+using NerdDinner.Core;
 using NerdDinner.Helpers;
 
 namespace NerdDinner.Services
@@ -45,7 +46,7 @@ namespace NerdDinner.Services
                 //return string.Empty;
             }
 
-            string apiKey = Env.IpInfoDbKey;
+            string apiKey = Config.Current["Apis:IpInfoDb:Key"];
             string url = "http://api.ipinfodb.com/v3/ip-city/?ip={0}&key=" + apiKey;
             //string url = "http://ipinfodb.com/ip_query.php?ip={0}&timezone=false";
             url = String.Format(url, ip);

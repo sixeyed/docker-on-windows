@@ -6,13 +6,24 @@
     <OutputType>Exe</OutputType>
     <PackageId>NerdDinner.MessageHandlers.IndexDinner</PackageId>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="5.2.0" />
-    <PackageReference Include="NEST" Version="5.0.1" />
+    <None Remove="config\appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="config\appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="5.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="NEST" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NerdDinner.Core\NerdDinner.Core.csproj" />
     <ProjectReference Include="..\NerdDinner.Messaging\NerdDinner.Messaging.csproj" />
   </ItemGroup>
 

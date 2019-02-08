@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.Extensions.Configuration;
+using NerdDinner.Core;
+using System.Data.Entity;
 
 namespace NerdDinner.Models
 {
@@ -13,7 +15,7 @@ namespace NerdDinner.Models
         // 
         // System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<NerdDinner.Models.NerdDinnerContext>());
 
-        public NerdDinnerContext() : base(Env.AppDbConnectionString)
+        public NerdDinnerContext() : base(Config.Current.GetConnectionString("NerdDinnerContext"))
         {
         }
 

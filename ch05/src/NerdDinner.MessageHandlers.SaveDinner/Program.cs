@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NATS.Client;
+using NerdDinner.Core;
 using NerdDinner.MessageHandlers.SaveDinner.ValueResolvers;
 using NerdDinner.Messaging;
 using NerdDinner.Messaging.Messages;
@@ -23,7 +24,7 @@ namespace NerdDinner.MessageHandlers.SaveDinner
                     cfg.CreateMap<entities.Dinner, models.Dinner>()
                        .ForMember(dest => dest.Location, opt => opt.ResolveUsing<DbGeographyValueResolver>()));
 
-            Console.WriteLine($"Connecting to message queue url: {Messaging.Env.MessageQueueUrl}");
+            Console.WriteLine($"Connecting to message queue url: {Config.Current["MessageQueue:Url"]}");
             using (var connection = MessageQueue.CreateConnection())
             {
                 var subscription = connection.SubscribeAsync(DinnerCreatedEvent.MessageSubject, QUEUE_GROUP);

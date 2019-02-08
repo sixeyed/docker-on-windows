@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using NerdDinner.Core;
+using System.IO;
 using System.Net;
 using System.Web.Mvc;
 
@@ -10,7 +11,7 @@ namespace NerdDinner.Controllers
 
         static HomeController()
         {
-            var request = WebRequest.Create(Env.HomePageUrl);
+            var request = WebRequest.Create(Config.Current["HomePage:Url"]);
             using (var response = request.GetResponse())
             using (var responseStream = new StreamReader(response.GetResponseStream()))
             {

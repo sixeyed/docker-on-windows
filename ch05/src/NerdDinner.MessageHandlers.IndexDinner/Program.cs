@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NATS.Client;
+using NerdDinner.Core;
 using NerdDinner.MessageHandlers.IndexDinner.ValueResolvers;
 using NerdDinner.Messaging;
 using NerdDinner.Messaging.Messages;
@@ -24,7 +25,7 @@ namespace NerdDinner.MessageHandlers.IndexDinner
 
             Index.Setup();
 
-            Console.WriteLine($"Connecting to message queue url: {Messaging.Env.MessageQueueUrl}");
+            Console.WriteLine($"Connecting to message queue url: {Config.Current["MessageQueue:Url"]}");
             using (var connection = MessageQueue.CreateConnection())
             {
                 var subscription = connection.SubscribeAsync(DinnerCreatedEvent.MessageSubject, QUEUE_GROUP);
@@ -46,7 +47,7 @@ namespace NerdDinner.MessageHandlers.IndexDinner
                 Console.WriteLine($"Indexing new dinner, created at: {eventMessage.CreatedAt}; event ID: {eventMessage.CorrelationId}");
 
                 var dinner = Mapper.Map<documents.Dinner>(eventMessage.Dinner);
-                var node = new Uri(Env.ElasticsearchUrl);
+                var node = new Uri(Config.Current["Elasticsearch:Url"]);
                 var client = new ElasticClient(node);
                 client.Index(dinner, idx => idx.Index("dinners"));
             }

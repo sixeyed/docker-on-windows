@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using NerdDinner.Core;
+using NerdDinner.Models;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
 using WebMatrix.WebData;
-using NerdDinner.Models;
 
 namespace NerdDinner.Filters
 {
@@ -38,7 +40,7 @@ namespace NerdDinner.Filters
                         }
                     }
 
-                    WebSecurity.InitializeDatabaseConnection(Models.Env.AuthDbConnectionString, "System.Data.SqlClient", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    WebSecurity.InitializeDatabaseConnection(Config.Current.GetConnectionString("UsersContext"), "System.Data.SqlClient", "UserProfile", "UserId", "UserName", autoCreateTables: true);
                 }
                 catch (Exception ex)
                 {

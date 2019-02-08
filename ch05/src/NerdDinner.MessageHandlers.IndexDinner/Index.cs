@@ -1,4 +1,5 @@
-﻿using NerdDinner.MessageHandlers.IndexDinner.Documents;
+﻿using NerdDinner.Core;
+using NerdDinner.MessageHandlers.IndexDinner.Documents;
 using Nest;
 using System;
 
@@ -8,7 +9,7 @@ namespace NerdDinner.MessageHandlers.IndexDinner
     {
         public static void Setup()
         {
-            var node = new Uri(Env.ElasticsearchUrl);
+            var node = new Uri(Config.Current["Elasticsearch:Url"]);
             var settings = new ConnectionSettings(node);
             var client = new ElasticClient(settings);
 

@@ -1,4 +1,5 @@
 ﻿using NATS.Client;
+using NerdDinner.Core;
 using NerdDinner.Messaging.Messages;
 
 namespace NerdDinner.Messaging
@@ -17,7 +18,7 @@ namespace NerdDinner.Messaging
 
         public static IConnection CreateConnection()
         {
-            return new ConnectionFactory().CreateConnection(Env.MessageQueueUrl);
+            return new ConnectionFactory().CreateConnection(Config.Current["MessageQueue:Url"]);
         }
     }
 }
