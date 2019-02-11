@@ -11,17 +11,19 @@ namespace NerdDinner.Controllers
 
         static HomeController()
         {    
-            /*        
-            var homepageUrl = Config.Current["HomePage:Url"];
-            if (!string.IsNullOrEmpty(homepageUrl))
-            {
-                var request = WebRequest.Create(homepageUrl);
-                using (var response = request.GetResponse())
-                using (var responseStream = new StreamReader(response.GetResponseStream()))
+            if (bool.Parse(Config.Current["HomePage:Enabled"]))
+            {                    
+                var homepageUrl = Config.Current["HomePage:Url"];
+                if (!string.IsNullOrEmpty(homepageUrl))
                 {
-                    _NewHomePageHtml = responseStream.ReadToEnd();
+                    var request = WebRequest.Create(homepageUrl);
+                    using (var response = request.GetResponse())
+                    using (var responseStream = new StreamReader(response.GetResponseStream()))
+                    {
+                        _NewHomePageHtml = responseStream.ReadToEnd();
+                    }
                 }
-            } */
+            }
         }
         
         public ActionResult Index()

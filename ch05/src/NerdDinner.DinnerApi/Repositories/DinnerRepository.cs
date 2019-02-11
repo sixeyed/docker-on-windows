@@ -13,7 +13,7 @@ namespace NerdDinner.DinnerApi.Repositories
         {
         }
 
-        protected override string GetAllSqlQuery => "SELECT *, DinnerID as LocationId, Location.Lat as Latitude,  Location.Long as Longitude FROM Dinners";
+        protected override string GetAllSqlQuery => "SELECT *, DinnerID as Id, DinnerID as LocationId, Location.Lat as Latitude,  Location.Long as Longitude FROM Dinners";
 
         public override IEnumerable<Dinner> GetAll()
         {
@@ -23,8 +23,8 @@ namespace NerdDinner.DinnerApi.Repositories
                 dbConnection.Open();
                 return dbConnection.Query<Dinner, Coordinates, Dinner>(
                     GetAllSqlQuery, 
-                    (dinner,cooardinates) => {
-                        dinner.Coordinates = cooardinates;
+                    (dinner,coordinates) => {
+                        dinner.Coordinates = coordinates;
                         return dinner;
                     },
                     splitOn: "LocationId"); //fake ID to give Dapper something to split on
