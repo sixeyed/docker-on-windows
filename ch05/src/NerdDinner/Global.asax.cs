@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using models = NerdDinner.Models;
-using entities = NerdDinner.Messaging.Entities;
+using entities = NerdDinner.Core.Entities;
 using NerdDinner.ValueResolvers;
 
 namespace NerdDinner

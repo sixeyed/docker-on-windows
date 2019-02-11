@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using System.Data.Spatial;
-using entities = NerdDinner.Messaging.Entities;
+using entities = NerdDinner.Core.Entities;
 using models = NerdDinner.Models;
 
 namespace NerdDinner.MessageHandlers.SaveDinner.ValueResolvers

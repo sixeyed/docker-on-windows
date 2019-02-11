@@ -4,6 +4,9 @@ docker image build -t dockeronwindows/ch05-nerd-dinner-builder:2e -f ./ch05-nerd
 
 docker image build -t dockeronwindows/ch05-nerd-dinner-web:2e ./ch05-nerd-dinner-web
 
+docker image build -t dockeronwindows/ch05-nerd-dinner-save-handler:2e ./ch05-nerd-dinner-save-handler
+
 docker image build -t dockeronwindows/ch05-nerd-dinner-index-handler:2e ./ch05-nerd-dinner-index-handler
 
-docker image build -t dockeronwindows/ch05-nerd-dinner-save-handler:2e ./ch05-nerd-dinner-save-handler
+docker image build -t dockeronwindows/ch05-nerd-dinner-api:2e ./ch05-nerd-dinner-api
+

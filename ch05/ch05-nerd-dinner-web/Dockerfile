@@ -11,8 +11,8 @@ RUN Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applic
 WORKDIR C:\nerd-dinner
 RUN Remove-Website -Name 'Default Web Site'; `
     New-Website -Name 'nerd-dinner' `
-                -Port 80 -PhysicalPath 'c:\nerd-dinner' `
-                -ApplicationPool '.NET v4.5'
+                -Port 80 -PhysicalPath 'c:\nerd-dinner' #`
+                #-ApplicationPool '.NET v4.5'
 
 RUN & c:\windows\system32\inetsrv\appcmd.exe `
       unlock config `
@@ -26,7 +26,10 @@ HEALTHCHECK --interval=5s `
      else {return 1}; `
     } catch { return 1 }
 
-COPY bootstrap.ps1 C:\
-ENTRYPOINT ["powershell", "C:\\bootstrap.ps1"]
+ENTRYPOINT ["powershell"]
+CMD Start-Process -NoNewWindow -FilePath C:\ServiceMonitor.exe -ArgumentList w3svc; `
+    Invoke-WebRequest http://localhost -UseBasicParsing | Out-Null; `
+    netsh http flush logbuffer | Out-Null; `
+    Get-Content -path 'C:\iislog\W3SVC\u_extend1.log' -Tail 1 -Wait 
 
-COPY --from=dockeronwindows/ch05-nerd-dinner-builder:2e C:\out\_PublishedWebsites\NerdDinner\ .
+COPY --from=dockeronwindows/ch05-nerd-dinner-builder:2e C:\nerd-dinner-web\_PublishedWebsites\NerdDinner\ .

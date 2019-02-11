@@ -8,7 +8,7 @@ using NerdDinner.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using entities = NerdDinner.Messaging.Entities;
+using entities = NerdDinner.Core.Entities;
 using models = NerdDinner.Models;
 
 namespace NerdDinner.MessageHandlers.SaveDinner

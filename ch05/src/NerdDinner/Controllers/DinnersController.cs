@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
+using NerdDinner.Core;
 using NerdDinner.Messaging;
 using NerdDinner.Messaging.Messages;
 using NerdDinner.Models;
 using PagedList;
+using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
-using entities = NerdDinner.Messaging.Entities;
+using entities = NerdDinner.Core.Entities;
 
 namespace NerdDinner.Controllers
 {
@@ -22,8 +26,19 @@ namespace NerdDinner.Controllers
         {
             int pageIndex = page ?? 1;
 
-            var dinners = db.Dinners.Where(d => d.EventDate >= DateTime.Now).OrderBy(d => d.EventDate);
-            return View(dinners.ToPagedList(pageIndex, PageSize));
+            if (bool.Parse(Config.Current["DinnerApi:Enabled"]))
+            {
+                var client = new RestClient(Config.Current["DinnerApi:Url"]);
+                var request = new RestRequest("dinners");
+                var response = client.Execute<List<Dinner>>(request);
+                var dinners = response.Data.Where(d => d.EventDate >= DateTime.Now).OrderBy(d => d.EventDate);
+                return View(dinners.ToPagedList(pageIndex, PageSize));
+            }
+            else
+            {
+                var dinners = db.Dinners.Where(d => d.EventDate >= DateTime.Now).OrderBy(d => d.EventDate);
+                return View(dinners.ToPagedList(pageIndex, PageSize));
+            }
         }
 
         //

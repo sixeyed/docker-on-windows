@@ -1,8 +1,8 @@
 docker container run -d `
  --name message-queue `
  dockeronwindows/ch05-nats:2e;
- 
-docker container run -d -p 1433 `
+
+docker container run -d -p 1433:1433 `
  --name nerd-dinner-db `
  -v C:\databases\nd:C:\data `
  dockeronwindows/ch03-nerd-dinner-db:2e;

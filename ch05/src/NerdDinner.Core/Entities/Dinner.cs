@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NerdDinner.Messaging.Entities
+namespace NerdDinner.Core.Entities
 {
     public class Dinner
     {

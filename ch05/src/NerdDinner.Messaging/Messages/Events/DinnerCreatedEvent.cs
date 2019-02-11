@@ -1,4 +1,4 @@
-﻿using NerdDinner.Messaging.Entities;
+﻿using NerdDinner.Core.Entities;
 using System;
 
 namespace NerdDinner.Messaging.Messages

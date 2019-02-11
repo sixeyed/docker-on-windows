@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Nest;
 using documents = NerdDinner.MessageHandlers.IndexDinner.Documents;
-using entities = NerdDinner.Messaging.Entities;
+using entities = NerdDinner.Core.Entities;
 
 namespace NerdDinner.MessageHandlers.IndexDinner.ValueResolvers
 {

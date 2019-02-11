@@ -10,17 +10,30 @@ namespace NerdDinner.Controllers
         private static string _NewHomePageHtml;
 
         static HomeController()
-        {
-            var request = WebRequest.Create(Config.Current["HomePage:Url"]);
-            using (var response = request.GetResponse())
-            using (var responseStream = new StreamReader(response.GetResponseStream()))
+        {    
+            /*        
+            var homepageUrl = Config.Current["HomePage:Url"];
+            if (!string.IsNullOrEmpty(homepageUrl))
             {
-                _NewHomePageHtml = responseStream.ReadToEnd();
-            }
+                var request = WebRequest.Create(homepageUrl);
+                using (var response = request.GetResponse())
+                using (var responseStream = new StreamReader(response.GetResponseStream()))
+                {
+                    _NewHomePageHtml = responseStream.ReadToEnd();
+                }
+            } */
         }
-        public string Index()
+        
+        public ActionResult Index()
         {
-            return _NewHomePageHtml;
+            if (!string.IsNullOrEmpty(_NewHomePageHtml))
+            {
+                return Content(_NewHomePageHtml);
+            }
+            else
+            {
+                return Find();
+            }
         }
 
         public ActionResult Find()
@@ -34,5 +47,5 @@ namespace NerdDinner.Controllers
         {
             return View();
         }
-}
+    }
 }
