@@ -30,4 +30,4 @@ COPY Initialize-Database.ps1 .
 CMD powershell ./Initialize-Database.ps1 -sa_password $env:sa_password -data_path $env:data_path -Verbose
 
 COPY --from=builder ["C:\\Program Files\\Microsoft SQL Server\\140\\DAC", "C:\\Program Files\\Microsoft SQL Server\\140\\DAC"]
-COPY --from=builder C:\docker\NerdDinner.Database.dacpac .
+COPY --from=builder C:\src\NerdDinner.Database\bin\Debug\NerdDinner.Database.dacpac .

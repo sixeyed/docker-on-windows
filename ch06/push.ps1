@@ -1,0 +1,1 @@
+docker image push dockeronwindows/ch06-nerd-dinner-db:2e
