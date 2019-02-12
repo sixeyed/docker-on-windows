@@ -74,6 +74,8 @@ services:
       - "traefik.frontend.rule=Host:api.nerddinner.local"
     env_file:
       - db-credentials.env
+    depends_on:
+      - nerd-dinner-db
     networks:
       - nd-net
 

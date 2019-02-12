@@ -10,7 +10,7 @@ services:
   elasticsearch:
     image: sixeyed/elasticsearch:5.6.11-windowsservercore-ltsc2019
     environment: 
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - ES_JAVA_OPTS=-Xms500m -Xmx500m
     volumes:
       - es-data:C:\data
     networks:
@@ -20,8 +20,8 @@ services:
     image: sixeyed/traefik:v1.7.8-windowsservercore-ltsc2019
     command: --docker --docker.endpoint=npipe:////./pipe/docker_engine --api
     ports:
-      - "80:80"
-      - "8080:8080"
+      - "80"
+      - "8080"
     volumes:
       - type: npipe
         source: \\.\pipe\docker_engine
@@ -40,9 +40,6 @@ services:
 
   nerd-dinner-db:
     image: dockeronwindows/ch06-nerd-dinner-db:2e
-    build:
-      context: ../ch06-nerd-dinner-db
-      dockerfile: ./Dockerfile
     env_file:
       - db-credentials.env
     volumes:
@@ -52,9 +49,6 @@ services:
 
   nerd-dinner-save-handler:
     image: dockeronwindows/ch05-nerd-dinner-save-handler:2e
-    build:
-      context: ../../ch05
-      dockerfile: ./ch05-nerd-dinner-save-handler/Dockerfile
     depends_on:
       - nerd-dinner-db
       - message-queue
@@ -65,12 +59,6 @@ services:
 
   nerd-dinner-index-handler:
     image: dockeronwindows/ch05-nerd-dinner-index-handler:2e
-    build:
-      context: ../../ch05
-      dockerfile: ./ch05-nerd-dinner-index-handler/Dockerfile
-    environment: 
-      - Elasticsearch:Url=http://elasticsearch:9200
-      - MessageQueue:Url=nats://message-queue:4222
     depends_on:
       - elasticsearch
       - message-queue
@@ -79,9 +67,6 @@ services:
 
   nerd-dinner-api:
     image: dockeronwindows/ch05-nerd-dinner-api:2e
-    build:
-      context: ../../ch05/ch05-nerd-dinner-api
-      dockerfile: ./Dockerfile
     labels:
       - "traefik.frontend.rule=Host:api.nerddinner.local"
     env_file:
@@ -93,9 +78,6 @@ services:
 
   nerd-dinner-homepage:
     image: dockeronwindows/ch03-nerd-dinner-homepage:2e
-    build:
-      context: ../../ch03/ch03-nerd-dinner-homepage
-      dockerfile: ./Dockerfile
     labels:
       - "traefik.frontend.rule=Host:nerddinner.local;Path:/,/css/site.css"
       - "traefik.frontend.priority=10"
@@ -104,9 +86,6 @@ services:
 
   nerd-dinner-web:
     image: dockeronwindows/ch05-nerd-dinner-web:2e
-    build:
-      context: ../../ch05/ch05-nerd-dinner-web
-      dockerfile: ./Dockerfile
     labels:
       - "traefik.frontend.rule=Host:nerddinner.local;PathPrefix:/"
       - "traefik.frontend.priority=1"

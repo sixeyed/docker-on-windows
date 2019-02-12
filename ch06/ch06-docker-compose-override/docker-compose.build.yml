@@ -1,7 +1,7 @@
-version: '3.3'
+version: '3.7'
 
 services:
-  
+
   nerd-dinner-db:
     build:
       context: ../ch06-nerd-dinner-db
@@ -16,6 +16,11 @@ services:
     build:
       context: ../../ch05
       dockerfile: ./ch05-nerd-dinner-index-handler/Dockerfile
+
+  nerd-dinner-api:
+    build:
+      context: ../../ch05/ch05-nerd-dinner-api
+      dockerfile: ./Dockerfile
 
   nerd-dinner-homepage:
     build:
