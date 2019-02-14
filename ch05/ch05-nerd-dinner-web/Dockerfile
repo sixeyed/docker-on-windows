@@ -11,8 +11,7 @@ RUN Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applic
 WORKDIR C:\nerd-dinner
 RUN Remove-Website -Name 'Default Web Site'; `
     New-Website -Name 'nerd-dinner' `
-                -Port 80 -PhysicalPath 'c:\nerd-dinner' #`
-                #-ApplicationPool '.NET v4.5'
+                -Port 80 -PhysicalPath 'c:\nerd-dinner'
 
 RUN & c:\windows\system32\inetsrv\appcmd.exe `
       unlock config `

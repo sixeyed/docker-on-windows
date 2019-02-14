@@ -2,6 +2,16 @@ version: '3.3'
 
 services:
 
+  reverse-proxy:    
+    secrets:
+      - source: docker-tls-ca
+        target: C:\certs\ca.pem
+      - source: docker-tls-cert
+        target: C:\certs\cert.pem
+      - source: docker-tls-key
+        target: C:\certs\key.pem
+    command: docker --docker.swarmMode --docker.watch --docker.endpoint=tcp://win2019-dev-02:2376 --docker.tls.ca=/certs/ca.pem --docker.tls.cert=/certs/cert.pem --docker.tls.key=/certs/key.pem
+    
   message-queue:
     deploy:
       endpoint_mode: dnsrr

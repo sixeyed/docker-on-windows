@@ -1,21 +1,40 @@
 param(
     [Parameter(Mandatory=$true)]
-    [string] $data_path)
+    [string] $sa_password,
+
+    [Parameter(Mandatory=$true)]
+    [string] $data_path,
+    
+    [Parameter(Mandatory=$true)]
+    [string] $sa_password_path
+)
 
 # start the service
 Write-Verbose 'Starting SQL Server'
 Start-Service MSSQL`$SQLEXPRESS
-$sa_password='_'
 
-$secretPath = 'C:\ProgramData\Docker\secrets\nerd-dinner-sa.password'
-if (Test-Path $secretPath) {
-    $sa_password = Get-Content -Raw $secretPath
+# set the SA password
+if ($sa_password_path -and (Test-Path $sa_password_path)) {
+    $password = Get-Content -Raw $sa_password_path
+    if ($password) {
+        $sa_password = $password
+        Write-Verbose "Using SA password from secret file: $sa_password_path"
+    }
+    else {
+        Write-Verbose "WARN: Using default SA password, no password in secret file: $sa_password_path"
+    }
+}
+else {
+    Write-Verbose "WARN: Using default SA password, secret file not found at: $sa_password_path"
+}
+
+if ($sa_password) {
 	Write-Verbose 'Changing SA login credentials'
     $sqlcmd = "ALTER LOGIN sa with password='$sa_password'; ALTER LOGIN sa ENABLE;"
     Invoke-SqlCmd -Query $sqlcmd -ServerInstance ".\SQLEXPRESS" 
 }
 else {
-    Write-Verbose 'SA password is required in the secret: nerd-dinner-sa.password'
+    Write-Verbose 'FATAL: SA password not supplied in sa_password or sa_password_path'
     return 1
 }
 
@@ -37,7 +56,7 @@ else {
 }
 
 # deploy or upgrade the database:
-$SqlPackagePath = 'C:\Program Files (x86)\Microsoft SQL Server\130\DAC\bin\SqlPackage.exe'
+$SqlPackagePath = 'C:\Program Files\Microsoft SQL Server\140\DAC\bin\SqlPackage.exe'
 & $SqlPackagePath  `
     /sf:NerdDinner.Database.dacpac `
     /a:Script /op:deploy.sql /p:CommentOutSetVarDeclarations=true `

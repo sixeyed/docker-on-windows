@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NerdDinner.Core;
 
 namespace NerdDinner.DinnerApi
 {
@@ -15,10 +17,13 @@ namespace NerdDinner.DinnerApi
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((builderContext, config) =>
                 {
-                    config.AddJsonFile("config/appsettings.json");
-                    config.AddEnvironmentVariables();
-                
+                    Config.AddProviders(config);
                 })
-                .UseStartup<Startup>();
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
+                }) //this reloads the logging config with the new providers
+               .UseStartup<Startup>();
     }
 }

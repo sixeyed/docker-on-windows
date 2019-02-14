@@ -1,6 +1,6 @@
 docker image push dockeronwindows/ch05-nats:2e
 
-docker image push dockeronwindows/ch05-nerd-dinner-builder:2e
+#docker image push dockeronwindows/ch05-nerd-dinner-builder:2e
 
 docker image push dockeronwindows/ch05-nerd-dinner-web:2e
 

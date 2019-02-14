@@ -8,12 +8,12 @@ namespace NerdDinner.DinnerApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/dinners")]
-    public class CountriesController : Controller
+    public class DinnersController : Controller
     {
         private readonly IRepository<Dinner> _repository;
         private readonly ILogger _logger;
 
-        public CountriesController(IRepository<Dinner> repository, ILogger<CountriesController> logger)
+        public DinnersController(IRepository<Dinner> repository, ILogger<DinnersController> logger)
         {
             _repository = repository;
             _logger = logger;
