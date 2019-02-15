@@ -1,47 +1,72 @@
-version: '3.3'
+version: '3.7'
 
 services:
 
-  nerd-dinner-db:
-    ports:    
-      - "1433"
-    env_file:
-      - db-credentials.env
-
   elasticsearch:
-    environment:
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    environment: 
+      - ES_JAVA_OPTS=-Xms500m -Xmx500m
+    volumes:
+      - ch07-es-data:C:\data
+
+  reverse-proxy:
+    command: --docker --docker.endpoint=npipe:////./pipe/docker_engine --api
+    ports:
+      - "80"
+      - "8080"
+    volumes:
+      - type: npipe
+        source: \\.\pipe\docker_engine
+        target: \\.\pipe\docker_engine
+
+  nerd-dinner-db:
+    volumes:
+      - ch07-db-data:C:\data
 
   kibana:
-    ports:    
-      - "5601"
     depends_on:
       - elasticsearch
+    labels:
+      - "traefik.frontend.rule=Host:kibana.nerddinner.local"
 
-  nerd-dinner-web:
-    ports:
-      - "80"    
+  nerd-dinner-save-handler:
     depends_on:
-      - nerd-dinner-homepage
       - nerd-dinner-db
       - message-queue
-    env_file:
-      - api-keys.env
-      - db-credentials.env
 
   nerd-dinner-index-handler:
     depends_on:
       - elasticsearch
       - message-queue
 
-  nerd-dinner-save-handler:
+  nerd-dinner-api:
+    depends_on:
+      - nerd-dinner-db
+    labels:
+      - "traefik.frontend.rule=Host:api.nerddinner.local"
+
+  nerd-dinner-homepage:
+    labels:
+      - "traefik.frontend.rule=Host:nerddinner.local;Path:/,/css/site.css"
+      - "traefik.frontend.priority=10"
+
+  nerd-dinner-web:
+    environment: 
+      - HomePage:Enabled=false
+      - DinnerApi:Enabled=true
+    env_file:
+      - api-keys.env
     depends_on:
       - nerd-dinner-db
       - message-queue
-    env_file:
-      - db-credentials.env
+    labels:
+      - "traefik.frontend.rule=Host:nerddinner.local;PathPrefix:/"
+      - "traefik.frontend.priority=1"     
 
 networks:
   nd-net:
     external:
       name: nat
+
+volumes:
+  ch07-es-data:
+  ch07-db-data:
