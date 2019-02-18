@@ -21,7 +21,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.platform.os == windows
+          - node.platform.os == linux
 
   elasticsearch:
     image: elasticsearch:5.6.11-alpine
