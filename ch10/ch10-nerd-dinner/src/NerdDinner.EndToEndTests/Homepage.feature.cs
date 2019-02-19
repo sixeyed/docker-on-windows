@@ -79,7 +79,7 @@ namespace NerdDinner.EndToEndTests
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 7
- testRunner.Given("I navigate to the app at \"http://nerddinner.test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I navigate to the app at \"http://nerd-dinner-test\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
  testRunner.When("I see the homepage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
