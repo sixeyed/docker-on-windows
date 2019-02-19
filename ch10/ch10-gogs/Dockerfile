@@ -11,7 +11,7 @@ RUN Write-Host 'Expanding ...'; `
 	Expand-Archive gogs.zip -DestinationPath C:\;
 
 # gogs
-FROM mcr.microsoft.com/windows/nanoserver:1809
+FROM sixeyed/chocolatey:windowsservercore-ltsc2019
 
 ARG GOGS_VERSION="0.11.86"
 ARG GOGS_PATH="C:\gogs"
@@ -24,11 +24,7 @@ EXPOSE 3000
 VOLUME C:\data C:\logs C:\repositories
 CMD ["gogs", "web"]
 
-WORKDIR C:\git
-COPY --from=sixeyed/git:2.17.1-windowsservercore-ltsc2019 ${GIT_PATH} ${GIT_PATH}
-
-USER ContainerAdministrator
-RUN setx /M PATH "%GIT_PATH%\cmd;%GIT_PATH%\mingw64\bin;%GIT_PATH%\usr\bin;%PATH%"
+RUN choco install -y git
 
 WORKDIR ${GOGS_PATH}
 COPY app.ini ./custom/conf/app.ini
