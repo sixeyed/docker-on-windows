@@ -7,6 +7,8 @@
 # -f .\compose\docker-compose.build.yml `
 # build
 
+Write-Output '*** Building application images'
+
 cd .\ch10\ch10-nerd-dinner
 docker image build -t dockeronwindows/ch10-nerd-dinner-db:2e -f .\docker\nerd-dinner-db\Dockerfile .
 docker image build -t dockeronwindows/ch10-nerd-dinner-index-handler:2e -f .\docker\nerd-dinner-index-handler\Dockerfile .
@@ -14,4 +16,3 @@ docker image build -t dockeronwindows/ch10-nerd-dinner-save-handler:2e -f .\dock
 docker image build -t dockeronwindows/ch10-nerd-dinner-api:2e -f .\docker\nerd-dinner-api\Dockerfile .
 docker image build -t dockeronwindows/ch10-nerd-dinner-homepage:2e -f .\docker\nerd-dinner-homepage\Dockerfile .
 docker image build -t dockeronwindows/ch10-nerd-dinner-web:2e -f .\docker\nerd-dinner-web\Dockerfile .
-docker image build -t dockeronwindows/ch10-nerd-dinner-e2e-tests:2e -f .\docker\nerd-dinner-e2e-tests\Dockerfile .

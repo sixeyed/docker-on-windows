@@ -1,7 +1,7 @@
 ﻿Feature: Nerd Dinner Homepage
 	As a Nerd Dinner user
 	I want to see a modern responsive homepage
-	So that I'm enouraged to engage with the app
+	So that I'm encouraged to engage with the app
 
 Scenario: Visit homepage
 	Given I navigate to the app at "http://nerd-dinner-test"

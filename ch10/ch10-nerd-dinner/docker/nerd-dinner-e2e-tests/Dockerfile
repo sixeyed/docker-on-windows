@@ -10,7 +10,6 @@ RUN msbuild NerdDinner.EndToEndTests.csproj /p:OutputPath=C:\e2e-tests
 
 # test runner
 FROM sixeyed/nunit:3.9.0-windowsservercore-ltsc2019
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; "]
 
 WORKDIR /e2e-tests
 CMD nunit3-console NerdDinner.EndToEndTests.dll
