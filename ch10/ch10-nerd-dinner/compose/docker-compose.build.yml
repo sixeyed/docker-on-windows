@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+
+  nerd-dinner-db:
+    build:
+      context: ../
+      dockerfile: ./docker/nerd-dinner-db/Dockerfile
+  
+  nerd-dinner-save-handler:
+    build:
+      context: ../
+      dockerfile: ./docker/nerd-dinner-save-handler/Dockerfile
+
+  nerd-dinner-index-handler:
+    build:
+      context: ../
+      dockerfile: ./docker/nerd-dinner-index-handler/Dockerfile
+
+  nerd-dinner-api:
+    build:
+      context: ../
+      dockerfile: ./docker/nerd-dinner-api/Dockerfile
+
+  nerd-dinner-homepage:
+    build:
+      context: ../
+      dockerfile: ./docker/nerd-dinner-homepage/Dockerfile
+
+  nerd-dinner-web:
+    build:
+      context: ../
+      dockerfile: ./docker/nerd-dinner-web/Dockerfile

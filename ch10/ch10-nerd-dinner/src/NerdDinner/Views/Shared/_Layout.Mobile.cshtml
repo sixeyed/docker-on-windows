@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.bing.com https://*.virtualearth.net http://*.bing.com http://*.virtualearth.net http://api.ipinfodb.com" />
+    @Styles.Render("~/Content/jquerymobile")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquerymobile")
+    @Scripts.Render("~/bundles/yepnope")
+</head>
+<body>
+    <div data-role="page" data-theme="b">
+        <div data-role="header">
+            <h1>@ViewBag.Title</h1>
+        </div>
+        <div data-role="content">
+            @RenderBody()
+        </div>
+        <div data-role="footer">
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/NerdDinner.js"></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&branch=release' async defer></script>
+
+    <script>
+        function GetMap() {
+            NerdDinner.ipInfoDbKey = '@NerdDinner.Core.Config.Current["Apis:IpInfoDb:Key"]';
+            NerdDinner.BingMapsKey = '@NerdDinner.Core.Config.Current["Apis:BingMaps:Key"]';
+            NerdDinner.InitMap();
+            onMapLoaded();
+        }
+    </script>
+
+</body>
+</html>

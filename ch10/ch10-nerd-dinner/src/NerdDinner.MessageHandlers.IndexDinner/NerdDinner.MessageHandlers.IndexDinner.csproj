@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>NerdDinner.MessageHandlers.IndexDinner</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>NerdDinner.MessageHandlers.IndexDinner</PackageId>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove="config\appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="config\appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="5.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="NEST" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NerdDinner.Core\NerdDinner.Core.csproj" />
+    <ProjectReference Include="..\NerdDinner.Messaging\NerdDinner.Messaging.csproj" />
+  </ItemGroup>
+
+</Project>
