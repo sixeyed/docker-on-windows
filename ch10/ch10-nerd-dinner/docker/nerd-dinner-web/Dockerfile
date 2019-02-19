@@ -38,7 +38,7 @@ RUN & c:\windows\system32\inetsrv\appcmd.exe `
       unlock config `
       /section:system.webServer/handlers
 
-HEALTHCHECK --interval=5s `
+HEALTHCHECK --interval=5s --start-period=10s `
  CMD powershell -command `
     try { `
      $response = iwr http://localhost -UseBasicParsing; `
