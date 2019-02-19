@@ -1,0 +1,130 @@
+version: '3.7'
+
+services:
+
+  message-queue:
+    image: nats:1.4.1-linux
+    deploy:
+      placement:
+        constraints:          
+          - node.platform.os == linux
+  
+  reverse-proxy:
+    image: traefik:v1.7.8-alpine
+    command: --docker --docker.swarmMode --docker.watch --docker.endpoint=unix:///var/run/docker.sock --api
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+          - node.platform.os == linux
+
+  elasticsearch:
+    image: elasticsearch:5.6.11-alpine
+    deploy:
+      placement:
+        constraints:          
+          - node.platform.os == linux
+
+  kibana:
+    image: kibana:5.6.11
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host:kibana.nerddinner.sixeyed.com"
+        - "traefik.port=5601"
+      placement:
+        constraints:          
+          - node.platform.os == linux
+
+  nerd-dinner-db:
+    secrets:
+      - source: nerd-dinner-db-sa-password
+        target: C:\secrets\sa-password
+    deploy:
+      placement:
+        constraints:          
+          - node.platform.os == windows
+
+  nerd-dinner-save-handler:
+    secrets:
+      - source: nerd-dinner-save-handler-secrets
+        target: C:\save-handler\config\secrets.json
+    deploy:
+      replicas: 3
+      placement:
+        constraints:          
+          - node.platform.os == windows
+
+  nerd-dinner-index-handler:
+    deploy:
+      replicas: 2
+
+  nerd-dinner-api:
+    configs:
+      - source: nerd-dinner-api-config
+        target: C:\dinner-api\config\config.json
+    secrets:
+      - source: nerd-dinner-api-secrets
+        target: C:\dinner-api\config\secrets.json
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host:api.nerddinner.sixeyed.com"
+        - "traefik.port=80"
+      replicas: 2
+      placement:
+        constraints:          
+          - node.platform.os == windows
+
+  nerd-dinner-homepage:
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host:nerddinner.sixeyed.com;Path:/,/css/site.css"
+        - "traefik.frontend.priority=10"
+        - "traefik.port=80"
+      replicas: 2
+      placement:
+        constraints:          
+          - node.platform.os == windows
+
+  nerd-dinner-web:
+    configs:
+      - source: nerd-dinner-config
+        target: C:\nerd-dinner\config\config.json
+    secrets:
+      - source: nerd-dinner-secrets
+        target: C:\nerd-dinner\config\secrets.json
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host:nerddinner.sixeyed.com;PathPrefix:/"
+        - "traefik.frontend.priority=1"
+        - "traefik.backend.loadbalancer.stickiness=true"
+        - "traefik.port=80"
+      replicas: 2
+      placement:
+        constraints:          
+          - node.platform.os == windows
+
+networks:
+  nd-net:
+    external:
+      name: nd-swarm
+
+configs:
+  nerd-dinner-api-config:
+    external: true
+  nerd-dinner-config:
+    external: true
+
+secrets:
+  nerd-dinner-db-sa-password:
+    external: true
+  nerd-dinner-save-handler-secrets:
+    external: true
+  nerd-dinner-api-secrets:
+    external: true
+  nerd-dinner-secrets:
+    external: true
