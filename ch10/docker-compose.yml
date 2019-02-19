@@ -29,7 +29,7 @@ services:
       - C:\jenkins:C:\data      
       - type: npipe
         source: \\.\pipe\docker_engine
-        target: \\.\pipe\docker_engine 
+        target: \\.\pipe\docker_engine
     networks:
       - infrastructure
 
