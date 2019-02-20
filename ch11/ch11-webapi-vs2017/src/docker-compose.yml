@@ -1,11 +1,8 @@
-version: '2.1'
+version: '3.4'
 
 services:
   webapi.netfx:
-    image: webapi.netfx
-    ports:
-      - "3702/udp"
-      - "4022"
+    image: ${DOCKER_REGISTRY-}webapinetfx
     build:
       context: .\WebApi.NetFx
       dockerfile: Dockerfile

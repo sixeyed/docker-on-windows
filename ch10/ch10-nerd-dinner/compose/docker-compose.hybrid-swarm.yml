@@ -13,8 +13,7 @@ services:
     image: traefik:v1.7.8-alpine
     command: --docker --docker.swarmMode --docker.watch --docker.endpoint=unix:///var/run/docker.sock --api
     ports:
-      - "80:80"
-      - "8080:8080"
+      - "8000:80"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
