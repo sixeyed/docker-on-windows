@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  
+  api:
+    image: dockeronwindows/ch11-api-with-metrics:2e
+    ports:
+      - "80"
+    networks:
+      - metrics
+
+  nerd-dinner:
+    image: dockeronwindows/ch11-nerd-dinner-web-with-metrics:2e
+    ports:
+      - "80"
+    networks:
+      - metrics
+
+  prometheus:
+    image: dockeronwindows/ch11-prometheus:2e
+    ports:
+      - "9090"
+    networks:
+      - metrics  
+
+  grafana:
+    image: dockeronwindows/ch11-grafana:2e
+    ports:
+      - "3000"
+    networks:
+      - metrics
+
+networks:
+  metrics:
+    external:
+      name: nat
