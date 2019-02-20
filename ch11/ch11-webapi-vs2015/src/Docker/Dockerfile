@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/aspnet:windowsservercore-10.0.14393.1198
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 ARG source
