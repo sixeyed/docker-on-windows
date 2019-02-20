@@ -1,11 +1,14 @@
-version: '2.1'
+version: '3.7'
 
 services:
   webapi:
-    image: dockeronwindows/ch11-webapi-vscode
+    image: dockeronwindows/ch11-webapi-vscode:2e
     build:
       context: .
       args: 
-        source: bin\Debug\netcoreapp1.1\publish
+        CONFIGURATION: Release
     networks:
       - app-net
+
+networks:
+  app-net:
