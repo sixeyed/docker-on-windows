@@ -1,6 +1,33 @@
 
 # Docker on Windows
 
+-----
+Hi Elton,
+
+I don't know your email, and it is impossible to write you via twitter. Therefore I write to you by this method.
+
+Book: Docker on Windows - Second Edition
+
+Chapter: Learning about Docker with this book
+
+> If you want to discuss the book or your own Docker journey with me, feel free to ping me on Twitter at @EltonStoneman.
+
+Twitter:
+> @EltonStoneman cannot receive messages
+
+----------------------------
+
+Chapter: Running Docker on Windows
+
+Wrong:
+> $env:DOCKER_HOST='tcp://$($ipAddress):2376'
+
+Corrected:
+> $env:DOCKER_HOST="tcp://$($ipAddress):2376"
+
+Best regards, Andrey
+-----
+
 This is all the source code for the samples in my book [Docker on Windows](https://www.amazon.co.uk/Docker-Windows-Elton-Stoneman-ebook/dp/B0711Y4J9K), published by Packt.
 
 Every Dockerfile is also available on Docker Hub at the [dockeronwindows](https://hub.docker.com/r/dockeronwindows/) organization.
