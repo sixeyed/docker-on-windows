@@ -40,7 +40,7 @@ $SqlPackagePath = 'C:\Program Files\Microsoft SQL Server\140\DAC\bin\SqlPackage.
     /tsn:.\SQLEXPRESS /tdn:NerdDinner /tu:sa /tp:$sa_password 
 
 $SqlCmdVars = "DatabaseName=NerdDinner", "DefaultFilePrefix=NerdDinner", "DefaultDataPath=$data_path\", "DefaultLogPath=$data_path\"  
-Invoke-Sqlcmd -InputFile deploy.sql -Variable $SqlCmdVars -Verbose
+Invoke-Sqlcmd -InputFile deploy.sql -Variable $SqlCmdVars -ServerInstance ".\SQLEXPRESS" -Verbose
 
 Write-Verbose "Deployed NerdDinner database, data files at: $data_path"
 
