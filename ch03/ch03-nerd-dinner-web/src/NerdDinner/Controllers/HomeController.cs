@@ -12,21 +12,32 @@ namespace NerdDinner.Controllers
     {
         /* v2 */
         private static string _NewHomePageHtml;
+        private StreamWriter _Log;
 
         static HomeController()
-        {
-            var homepageUrl = Environment.GetEnvironmentVariable("HOMEPAGE_URL", EnvironmentVariableTarget.Machine);
-            var request = WebRequest.Create(homepageUrl);
-            using (var response = request.GetResponse())
-            using (var responseStream = new StreamReader(response.GetResponseStream()))
+        {            
+            var homepageUrl = Environment.GetEnvironmentVariable("HOMEPAGE_URL", EnvironmentVariableTarget.Machine);            
+            if (!string.IsNullOrEmpty(homepageUrl))
             {
-                _NewHomePageHtml = responseStream.ReadToEnd();
+                var request = WebRequest.Create(homepageUrl);
+                using (var response = request.GetResponse())
+                using (var responseStream = new StreamReader(response.GetResponseStream()))
+                {
+                    _NewHomePageHtml = responseStream.ReadToEnd();
+                }
             } 
         }
-
-        public string Index()
+        
+        public ActionResult Index()
         {
-            return _NewHomePageHtml;
+            if (!string.IsNullOrEmpty(_NewHomePageHtml))
+            {
+                return Content(_NewHomePageHtml);
+            }
+            else
+            {
+                return Find();
+            }
         }
 
         public ActionResult Find()
@@ -36,18 +47,9 @@ namespace NerdDinner.Controllers
             return View("Index");
         }
 
-        /* v1
-        public ActionResult Index()
-        {
-            ViewBag.Message = "Organizing the world's nerds and helping them eat in packs.";
-
-            return View();
-        }
-
         public ActionResult About()
         {
             return View();
-        }
-        */  
+        }  
     }
 }

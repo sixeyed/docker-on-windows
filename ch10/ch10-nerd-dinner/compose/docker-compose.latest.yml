@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  
+  nerd-dinner-db:
+    image: dockeronwindows/ch10-nerd-dinner-db:2e-${VERSION_NUMBER}
+
+  nerd-dinner-save-handler:
+    image: dockeronwindows/ch10-nerd-dinner-save-handler:2e-${VERSION_NUMBER}
+
+  nerd-dinner-index-handler:
+    image: dockeronwindows/ch10-nerd-dinner-index-handler:2e-${VERSION_NUMBER}
+
+  nerd-dinner-api:
+    image: dockeronwindows/ch10-nerd-dinner-api:2e-${VERSION_NUMBER}
+
+  nerd-dinner-homepage:
+    image: dockeronwindows/ch10-nerd-dinner-homepage:2e-${VERSION_NUMBER}
+
+  nerd-dinner-web:
+    image: dockeronwindows/ch10-nerd-dinner-web:2e-${VERSION_NUMBER}

@@ -41,7 +41,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
-<title>ASP.NET inline</title>
+<title>ch03-iis-environment-variables</title>
 </head>
 <body>
     <p>

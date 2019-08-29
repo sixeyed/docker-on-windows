@@ -1,8 +1,5 @@
 # escape=`
-FROM dockeronwindows/ch05-nerd-dinner-builder AS builder
-
-# app image
-FROM microsoft/aspnet:windowsservercore-10.0.14393.1198
+FROM mcr.microsoft.com/dotnet/framework/aspnet
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # configure IIS to write a global log file:
@@ -11,13 +8,10 @@ RUN Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applic
     Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applicationHost/log/centralW3CLogFile' -n 'period' -v 'MaxSize'; `
     Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applicationHost/log/centralW3CLogFile' -n 'directory' -v 'c:\iislog'
 
-RUN Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters' -n ServerPriorityTimeLimit -v 0 -t DWord 
-
 WORKDIR C:\nerd-dinner
 RUN Remove-Website -Name 'Default Web Site'; `
     New-Website -Name 'nerd-dinner' `
-                -Port 80 -PhysicalPath 'c:\nerd-dinner' `
-                -ApplicationPool '.NET v4.5'
+                -Port 80 -PhysicalPath 'c:\nerd-dinner'
 
 RUN & c:\windows\system32\inetsrv\appcmd.exe `
       unlock config `
@@ -31,14 +25,10 @@ HEALTHCHECK --interval=5s `
      else {return 1}; `
     } catch { return 1 }
 
-COPY bootstrap.ps1 C:\
-ENTRYPOINT ["powershell", "C:\\bootstrap.ps1"]
+ENTRYPOINT ["powershell"]
+CMD Start-Process -NoNewWindow -FilePath C:\ServiceMonitor.exe -ArgumentList w3svc; `
+    Invoke-WebRequest http://localhost -UseBasicParsing | Out-Null; `
+    netsh http flush logbuffer | Out-Null; `
+    Get-Content -path 'C:\iislog\W3SVC\u_extend1.log' -Tail 1 -Wait 
 
-ENV BING_MAPS_KEY="" `
-    IP_INFO_DB_KEY="" `
-    HOMEPAGE_URL="http://nerd-dinner-homepage" `
-    MESSAGE_QUEUE_URL="nats://message-queue:4222" `
-    AUTH_DB_CONNECTION_STRING="Data Source=nerd-dinner-db,1433;Initial Catalog=NerdDinner;User Id=sa;Password=N3rdD!Nne720^6;" `
-    APP_DB_CONNECTION_STRING="Data Source=nerd-dinner-db,1433;Initial Catalog=NerdDinner;User Id=sa;Password=N3rdD!Nne720^6;MultipleActiveResultSets=True;"        
-
-COPY --from=builder C:\out\NerdDinner\_PublishedWebsites\NerdDinner\ .
+COPY --from=dockeronwindows/ch05-nerd-dinner-builder:2e C:\nerd-dinner-web\_PublishedWebsites\NerdDinner\ .

@@ -6,3 +6,5 @@ Add-WindowsFeature web-mgmt-service
 
 Set-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name EnableRemoteManagement -Value 1
 Start-Service wmsvc
+
+ipconfig

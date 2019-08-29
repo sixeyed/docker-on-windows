@@ -1,16 +1,15 @@
 # escape=`
-FROM sixeyed/msbuild:netfx-4.5.2-webdeploy-10.0.14393.1198 AS builder
+FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019 AS builder
 
 WORKDIR C:\src\NerdDinner
 COPY src\NerdDinner\packages.config .
 RUN nuget restore packages.config -PackagesDirectory ..\packages
 
 COPY src C:\src
-RUN msbuild NerdDinner.csproj /p:OutputPath=c:\out\NerdDinner `
-        /p:DeployOnBuild=true /p:VSToolsPath=C:\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\tools\VSToolsPath
+RUN msbuild NerdDinner.csproj /p:OutputPath=c:\out /p:Configuration=Release
 
 # app image
-FROM microsoft/aspnet:windowsservercore-10.0.14393.1198
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # configure IIS to write a global log file:
@@ -19,10 +18,8 @@ RUN Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applic
     Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applicationHost/log/centralW3CLogFile' -n 'period' -v 'MaxSize'; `
     Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applicationHost/log/centralW3CLogFile' -n 'directory' -v 'c:\iislog'
 
-RUN Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters' -n ServerPriorityTimeLimit -v 0 -t DWord 
-
 ENV SA_PASSWORD="N3rdD!Nne720^6" `
-    HOMEPAGE_URL="http://nerd-dinner-homepage"
+    HOMEPAGE_URL=""
 
 WORKDIR C:\nerd-dinner
 RUN Remove-Website -Name 'Default Web Site'; `
@@ -42,7 +39,10 @@ HEALTHCHECK --interval=5s `
      else {return 1}; `
     } catch { return 1 }
 
-COPY bootstrap.ps1 C:\
-ENTRYPOINT ["powershell", "C:\\bootstrap.ps1"]
+ENTRYPOINT ["powershell"]
+CMD Start-Process -NoNewWindow -FilePath C:\ServiceMonitor.exe -ArgumentList w3svc; `
+    Invoke-WebRequest http://localhost -UseBasicParsing | Out-Null; `
+    netsh http flush logbuffer | Out-Null; `
+    Get-Content -path 'C:\iislog\W3SVC\u_extend1.log' -Tail 1 -Wait 
 
-COPY --from=builder C:\out\NerdDinner\_PublishedWebsites\NerdDinner C:\nerd-dinner
+COPY --from=builder C:\out\_PublishedWebsites\NerdDinner C:\nerd-dinner

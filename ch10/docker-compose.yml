@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  
+  gogs:
+    image: dockeronwindows/ch10-gogs:2e-final
+    ports:
+      - "3000:3000"
+    volumes:
+      - C:\gogs\data:C:\data
+      - C:\gogs\repos:C:\gogs\repositories
+    networks:
+      - infrastructure
+
+  registry:
+    image: dockeronwindows/ch04-registry:2e
+    ports:
+      - "5000:5000"
+    volumes:
+      - C:\registry:C:\data
+    networks:
+      - infrastructure
+
+  jenkins:
+    image: dockeronwindows/ch10-jenkins:2e-final
+    ports:
+      - "8080:8080"
+    volumes:
+      - C:\jenkins:C:\data      
+      - type: npipe
+        source: \\.\pipe\docker_engine
+        target: \\.\pipe\docker_engine
+    networks:
+      - infrastructure
+
+networks:
+  infrastructure:
+    external:
+      name: nat

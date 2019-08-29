@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+
+  reverse-proxy:
+    ports:
+      - "80:80"
+      - "8080:8080"
+
+  nerd-dinner-db:
+    ports:    
+      - "1433"
+    volumes:
+      - E:\nerd-dinner-mssql:C:\data
+
+  elasticsearch:
+    ports:    
+      - "9200"
+    environment: 
+      - ES_JAVA_OPTS=-Xms900m -Xmx900m
+    volumes:
+      - E:\nerd-dinner-elastic:C:\data
+
+  kibana:
+    labels:
+      - "traefik.frontend.rule=Host:analytics.nerd-dinner.test"
+  
+  nerd-dinner-api:
+    labels:
+      - "traefik.frontend.rule=Host:api.nerd-dinner.test"
+  
+  nerd-dinner-homepage:
+    labels:
+      - "traefik.frontend.rule=Host:nerd-dinner.test;Path:/,/css/site.css"
+      - "traefik.frontend.priority=10"
+      
+  nerd-dinner-web:
+    labels:
+      - "traefik.frontend.rule=Host:nerd-dinner.test;PathPrefix:/"
+      - "traefik.frontend.priority=1"
+      - "traefik.backend.loadbalancer.stickiness=true"
+
+networks:
+  nd-net:
+    external:
+      name: nerd-dinner-network

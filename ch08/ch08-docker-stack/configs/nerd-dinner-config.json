@@ -1,0 +1,9 @@
+{
+  "HomePage": {
+    "Enabled" :  "false"
+  },
+  "DinnerApi": {
+    "Enabled" :  "true",
+      "Url": "http://nerd-dinner-api/api"
+  }
+}

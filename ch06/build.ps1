@@ -1,0 +1,1 @@
+docker image build -t dockeronwindows/ch06-nerd-dinner-db:2e ./ch06-nerd-dinner-db

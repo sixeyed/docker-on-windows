@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/mssql-server-windows-express
+FROM dockeronwindows/ch03-sql-server:2e
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 ENV sa_password DockerOnW!nd0ws

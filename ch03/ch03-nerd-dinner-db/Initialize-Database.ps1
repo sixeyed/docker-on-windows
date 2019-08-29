@@ -33,14 +33,14 @@ else {
 }
 
 # deploy or upgrade the database:
-$SqlPackagePath = 'C:\Program Files (x86)\Microsoft SQL Server\130\DAC\bin\SqlPackage.exe'
+$SqlPackagePath = 'C:\Program Files\Microsoft SQL Server\140\DAC\bin\SqlPackage.exe'
 & $SqlPackagePath  `
     /sf:NerdDinner.Database.dacpac `
     /a:Script /op:deploy.sql /p:CommentOutSetVarDeclarations=true `
     /tsn:.\SQLEXPRESS /tdn:NerdDinner /tu:sa /tp:$sa_password 
 
 $SqlCmdVars = "DatabaseName=NerdDinner", "DefaultFilePrefix=NerdDinner", "DefaultDataPath=$data_path\", "DefaultLogPath=$data_path\"  
-Invoke-Sqlcmd -InputFile deploy.sql -Variable $SqlCmdVars -Verbose
+Invoke-Sqlcmd -InputFile deploy.sql -Variable $SqlCmdVars -ServerInstance ".\SQLEXPRESS" -Verbose
 
 Write-Verbose "Deployed NerdDinner database, data files at: $data_path"
 

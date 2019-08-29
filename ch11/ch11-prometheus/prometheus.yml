@@ -7,6 +7,6 @@ scrape_configs:
   - job_name: 'Api'
     static_configs:
       - targets: ['api:50505']
-  - job_name: 'Bonobo'
+  - job_name: 'NerdDinnerWeb'
     static_configs:
-      - targets: ['bonobo:50505']
+      - targets: ['nerd-dinner:50505']

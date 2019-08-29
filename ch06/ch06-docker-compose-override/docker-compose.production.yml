@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+
+  reverse-proxy:
+    command: --docker --docker.endpoint=npipe:////./pipe/docker_engine
+    ports:
+      - "80:80"
+
+  elasticsearch:
+    environment: 
+      - ES_JAVA_OPTS=-Xms1500m -Xmx1500m
+      
+  kibana:
+    labels:
+      - "traefik.frontend.rule=Host:analytics.nerd-dinner.com"
+  
+  nerd-dinner-api:
+    labels:
+      - "traefik.frontend.rule=Host:api.nerd-dinner.com"
+  
+  nerd-dinner-homepage:
+    labels:
+      - "traefik.frontend.rule=Host:nerd-dinner.com;Path:/,/css/site.css"
+      - "traefik.frontend.priority=10"
+      
+  nerd-dinner-web:
+    labels:
+      - "traefik.frontend.rule=Host:nerd-dinner.com;PathPrefix:/"
+      - "traefik.frontend.priority=1"
+      - "traefik.backend.loadbalancer.stickiness=true"
+
+networks:
+  nd-net:
+    external:
+      name: nerd-dinner-network
+
+volumes:
+  es-data:
+    external: 
+      name: nerd-dinner-elasticsearch-data
+
+  db-data:
+    external: 
+      name: nerd-dinner-database-data

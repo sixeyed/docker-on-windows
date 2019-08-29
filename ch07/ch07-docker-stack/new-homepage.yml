@@ -1,0 +1,6 @@
+version: '3.7'
+
+services:  
+
+  nerd-dinner-homepage:
+    image: dockeronwindows/ch07-nerd-dinner-homepage:2e

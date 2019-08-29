@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  
+  message-queue:
+    image: dockeronwindows/ch05-nats:2e
+    networks:
+      - nd-net
+
+  elasticsearch:
+    image: sixeyed/elasticsearch:5.6.11-windowsservercore-ltsc2019
+    networks:
+      - nd-net
+
+  reverse-proxy:
+    image: sixeyed/traefik:v1.7.8-windowsservercore-ltsc2019
+    networks:
+      - nd-net
+
+  kibana:
+    image: sixeyed/kibana:5.6.11-windowsservercore-ltsc2019
+    networks:
+      - nd-net
+
+  nerd-dinner-db:
+    image: dockeronwindows/ch07-nerd-dinner-db:2e
+    networks:
+      - nd-net
+
+  nerd-dinner-save-handler:
+    image: dockeronwindows/ch05-nerd-dinner-save-handler:2e
+    networks:
+      - nd-net
+
+  nerd-dinner-index-handler:
+    image: dockeronwindows/ch05-nerd-dinner-index-handler:2e
+    networks:
+      - nd-net
+
+  nerd-dinner-api:
+    image: dockeronwindows/ch07-nerd-dinner-api:2e
+    networks:
+      - nd-net
+
+  nerd-dinner-homepage:
+    image: dockeronwindows/ch07-nerd-dinner-homepage:2e
+    networks:
+      - nd-net
+
+  nerd-dinner-web:
+    image: dockeronwindows/ch07-nerd-dinner-web:2e
+    networks:
+      - nd-net

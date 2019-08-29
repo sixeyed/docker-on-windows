@@ -1,4 +1,6 @@
 
+## this is an alternative to using ServiceMonitor
+
 # copy process-level environment variables to machine level
 foreach($key in [System.Environment]::GetEnvironmentVariables('Process').Keys) {
     if ([System.Environment]::GetEnvironmentVariable($key, 'Machine') -eq $null) {

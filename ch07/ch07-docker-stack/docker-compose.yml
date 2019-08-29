@@ -1,60 +1,53 @@
-version: '3.3'
+version: '3.7'
 
 services:
   
   message-queue:
-    image: nats:nanoserver
+    image: dockeronwindows/ch05-nats:2e
     networks:
       - nd-net
 
   elasticsearch:
-    image: sixeyed/elasticsearch:nanoserver
-    volumes:
-      - es-data:C:\data
+    image: sixeyed/elasticsearch:5.6.11-windowsservercore-ltsc2019
     networks:
       - nd-net
 
-  nerd-dinner-db:
-    image: dockeronwindows/ch07-nerd-dinner-db
-    volumes:
-      - db-data:C:\data
+  reverse-proxy:
+    image: sixeyed/traefik:v1.7.8-windowsservercore-ltsc2019
     networks:
       - nd-net
 
   kibana:
-    image: sixeyed/kibana:nanoserver
+    image: sixeyed/kibana:5.6.11-windowsservercore-ltsc2019
+    networks:
+      - nd-net
+
+  nerd-dinner-db:
+    image: dockeronwindows/ch07-nerd-dinner-db:2e
     networks:
       - nd-net
 
   nerd-dinner-save-handler:
-    image: dockeronwindows/ch07-nerd-dinner-save-handler
+    image: dockeronwindows/ch05-nerd-dinner-save-handler:2e
     networks:
       - nd-net
 
   nerd-dinner-index-handler:
-    image: dockeronwindows/ch05-nerd-dinner-index-handler
-    environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    image: dockeronwindows/ch05-nerd-dinner-index-handler:2e
+    networks:
+      - nd-net
+
+  nerd-dinner-api:
+    image: dockeronwindows/ch07-nerd-dinner-api:2e
     networks:
       - nd-net
 
   nerd-dinner-homepage:
-    image: dockeronwindows/ch03-nerd-dinner-homepage
+    image: dockeronwindows/ch03-nerd-dinner-homepage:2e
     networks:
       - nd-net
 
   nerd-dinner-web:
-    image: dockeronwindows/ch07-nerd-dinner-web
-    environment: 
-      - HOMEPAGE_URL=http://nerd-dinner-homepage
-      - MESSAGE_QUEUE_URL=nats://message-queue:4222
+    image: dockeronwindows/ch07-nerd-dinner-web:2e
     networks:
       - nd-net
-
-networks:
-  nd-net:
-
-volumes:
-  es-data:
-  db-data:

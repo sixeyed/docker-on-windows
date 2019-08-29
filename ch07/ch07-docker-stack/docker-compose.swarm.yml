@@ -1,90 +1,105 @@
-version: '3.3'
+version: '3.7'
 
 services:
-
-  message-queue:
+  
+  reverse-proxy:
+    command: --docker --docker.swarmMode --docker.watch --docker.endpoint=tcp://win2019-dev-02:2376 --docker.tls.ca=/certs/ca.pem --docker.tls.cert=/certs/cert.pem --docker.tls.key=/certs/key.pem --api
+    ports:
+      - "80:80"
+      - "8080:8080"
+    secrets:
+      - source: docker-client-ca
+        target: C:\certs\ca.pem
+      - source: docker-client-cert
+        target: C:\certs\cert.pem
+      - source: docker-client-key
+        target: C:\certs\key.pem
     deploy:
-      endpoint_mode: dnsrr
       placement:
         constraints:
-          - node.platform.os == windows
+          - node.role == manager
 
-  elasticsearch:
-    environment:
-      - ES_JAVA_OPTS=-Xms768m -Xmx768m
+  kibana:
     deploy:
-      endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.platform.os == windows
+      labels:
+        - "traefik.frontend.rule=Host:kibana.nerddinner.swarm"
+        - "traefik.port=5601"
 
   nerd-dinner-db:
     secrets:
-      - nerd-dinner-sa.password
-    deploy:
-      endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.platform.os == windows
-
-  kibana:
-    ports:
-     - mode: host
-       published: 5601
-       target: 5601
-    deploy:
-      endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.platform.os == windows
+      - source: nerd-dinner-db-sa-password
+        target: C:\secrets\sa-password
 
   nerd-dinner-save-handler:
     secrets:
-      - nerd-dinner.connectionstring
+      - source: nerd-dinner-save-handler-secrets
+        target: C:\save-handler\config\secrets.json
     deploy:
-      endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.platform.os == windows
+      replicas: 3
 
   nerd-dinner-index-handler:
     deploy:
-      endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.platform.os == windows
+      replicas: 2
+
+  nerd-dinner-api:
+    configs:
+      - source: nerd-dinner-api-config
+        target: C:\dinner-api\config\config.json
+    secrets:
+      - source: nerd-dinner-api-secrets
+        target: C:\dinner-api\config\secrets.json
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host:api.nerddinner.swarm"
+        - "traefik.port=80"
+      replicas: 2
 
   nerd-dinner-homepage:
     deploy:
-      endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.platform.os == windows
+      labels:
+        - "traefik.frontend.rule=Host:nerddinner.swarm;Path:/,/css/site.css"
+        - "traefik.frontend.priority=10"
+        - "traefik.port=80"
+      replicas: 2
 
   nerd-dinner-web:
-    ports:
-     - mode: host
-       published: 80
-       target: 80
+    configs:
+      - source: nerd-dinner-config
+        target: C:\nerd-dinner\config\config.json
     secrets:
-      - nerd-dinner.connectionstring
-      - nerd-dinner-bing-maps.apikey
-      - nerd-dinner-ip-info-db.apikey
+      - source: nerd-dinner-secrets
+        target: C:\nerd-dinner\config\secrets.json
     deploy:
-      endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.platform.os == windows
+      labels:
+        - "traefik.frontend.rule=Host:nerddinner.swarm;PathPrefix:/"
+        - "traefik.frontend.priority=1"
+        - "traefik.backend.loadbalancer.stickiness=true"
+        - "traefik.port=80"
+      replicas: 2
+
+networks:
+  nd-net:
+    external:
+      name: nd-swarm
+
+configs:
+  nerd-dinner-api-config:
+    external: true
+  nerd-dinner-config:
+    external: true
 
 secrets:
-  nerd-dinner-bing-maps.apikey:
+  docker-client-ca:
     external: true
-
-  nerd-dinner-ip-info-db.apikey:
+  docker-client-cert:
     external: true
-  
-  nerd-dinner-sa.password:
+  docker-client-key:
     external: true
-
-  nerd-dinner.connectionstring:
+  nerd-dinner-db-sa-password:
+    external: true
+  nerd-dinner-save-handler-secrets:
+    external: true
+  nerd-dinner-api-secrets:
+    external: true
+  nerd-dinner-secrets:
     external: true

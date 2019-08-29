@@ -1,8 +1,5 @@
 # escape=`
-FROM dockeronwindows/ch07-nerd-dinner-builder AS builder
-
-# app image
-FROM microsoft/aspnet:windowsservercore-10.0.14393.1198
+FROM mcr.microsoft.com/dotnet/framework/aspnet
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # configure IIS to write a global log file:
@@ -11,17 +8,12 @@ RUN Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applic
     Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applicationHost/log/centralW3CLogFile' -n 'period' -v 'MaxSize'; `
     Set-WebConfigurationProperty -p 'MACHINE/WEBROOT/APPHOST' -fi 'system.applicationHost/log/centralW3CLogFile' -n 'directory' -v 'c:\iislog'
 
-RUN Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters' -n ServerPriorityTimeLimit -v 0 -t DWord 
-
 WORKDIR C:\nerd-dinner
 RUN Import-Module WebAdministration; `
+    Set-ItemProperty IIS:\AppPools\DefaultAppPool -Name processModel.identityType -Value LocalSystem; `
     Remove-Website -Name 'Default Web Site'; `
-    New-WebAppPool -Name 'ap-nd'; `
-    Set-ItemProperty IIS:\AppPools\ap-nd -Name managedRuntimeVersion -Value v4.0; `
-    Set-ItemProperty IIS:\AppPools\ap-nd -Name processModel.identityType -Value LocalSystem; `
     New-Website -Name 'nerd-dinner' `
-                -Port 80 -PhysicalPath 'C:\nerd-dinner' `
-                -ApplicationPool 'ap-nd'
+                -Port 80 -PhysicalPath 'c:\nerd-dinner'
 
 RUN & c:\windows\system32\inetsrv\appcmd.exe `
       unlock config `
@@ -35,10 +27,10 @@ HEALTHCHECK --interval=5s `
      else {return 1}; `
     } catch { return 1 }
 
-COPY bootstrap.ps1 C:\
-ENTRYPOINT ["powershell", "C:\\bootstrap.ps1"]
+ENTRYPOINT ["powershell"]
+CMD Start-Process -NoNewWindow -FilePath C:\ServiceMonitor.exe -ArgumentList w3svc; `
+    Invoke-WebRequest http://localhost -UseBasicParsing | Out-Null; `
+    netsh http flush logbuffer | Out-Null; `
+    Get-Content -path 'C:\iislog\W3SVC\u_extend1.log' -Tail 1 -Wait 
 
-ENV HOMEPAGE_URL="http://nerd-dinner-homepage" `
-    MESSAGE_QUEUE_URL="nats://message-queue:4222"
-
-COPY --from=builder C:\out\NerdDinner\_PublishedWebsites\NerdDinner\ .
+COPY --from=dockeronwindows/ch05-nerd-dinner-builder:2e C:\nerd-dinner-web\_PublishedWebsites\NerdDinner\ .

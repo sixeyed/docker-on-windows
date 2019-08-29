@@ -1,16 +1,15 @@
 # escape=`
-FROM sixeyed/msbuild:netfx-4.5.2-webdeploy-10.0.14393.1198 AS builder
+FROM microsoft/dotnet-framework:4.7.2-sdk-windowsservercore-ltsc2019 AS builder
 
 WORKDIR C:\src\NerdDinner
 COPY src\NerdDinner\packages.config .
 RUN nuget restore packages.config -PackagesDirectory ..\packages
 
 COPY src C:\src
-RUN msbuild NerdDinner.csproj /p:OutputPath=c:\out\NerdDinner `
-        /p:DeployOnBuild=true /p:VSToolsPath=C:\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\tools\VSToolsPath
+RUN msbuild NerdDinner.csproj /p:OutputPath=c:\out /p:Configuration=Release
 
 # app image
-FROM microsoft/aspnet:windowsservercore-10.0.14393.1198
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 ENV BING_MAPS_KEY bing_maps_key
@@ -25,4 +24,4 @@ RUN & c:\windows\system32\inetsrv\appcmd.exe `
       unlock config `
       /section:system.webServer/handlers
 
-COPY --from=builder C:\out\NerdDinner\_PublishedWebsites\NerdDinner C:\nerd-dinner
+COPY --from=builder C:\out\_PublishedWebsites\NerdDinner C:\nerd-dinner

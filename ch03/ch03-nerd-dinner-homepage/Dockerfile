@@ -1,18 +1,19 @@
 # escape=`
-FROM microsoft/dotnet:1.1.2-sdk-nanoserver AS builder
+FROM microsoft/dotnet:2.2-sdk-nanoserver-1809 AS builder
 
-WORKDIR C:\src\NerdDinnerHomepage
-COPY src\NerdDinnerHomepage\NerdDinnerHomepage.csproj .
+WORKDIR C:\src\NerdDinner.Homepage
+COPY src\NerdDinner.Homepage\NerdDinner.Homepage.csproj .
 RUN dotnet restore
 
-COPY src\NerdDinnerHomepage .
+COPY src\NerdDinner.Homepage .
 RUN dotnet publish
 
 # app image
-FROM microsoft/aspnetcore:1.1.2-nanoserver
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1809
 
 WORKDIR C:\dotnetapp
 ENV NERD_DINNER_URL="/home/find"
+EXPOSE 80
 
-CMD ["dotnet", "NerdDinnerHomepage.dll"]
-COPY --from=builder C:\src\NerdDinnerHomepage\bin\Debug\netcoreapp1.1\publish .
+CMD ["dotnet", "NerdDinner.Homepage.dll"]
+COPY --from=builder C:\src\NerdDinner.Homepage\bin\Debug\netcoreapp2.2\publish .
