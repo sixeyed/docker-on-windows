@@ -3,7 +3,9 @@
 
 This is all the source code for the samples in my book [Docker on Windows](https://www.amazon.co.uk/Docker-Windows-Elton-Stoneman-ebook/dp/B0711Y4J9K), published by Packt.
 
-Every Dockerfile is also available on Docker Hub at the [dockeronwindows](https://hub.docker.com/r/dockeronwindows/) organization.
+> There are two editions of the book. This is the latest edition, which covers Docker on Windows Server 2019, and that's what you should be using. If you're still using Windows Server 2016 then you want [the first edition](https://github.com/sixeyed/docker-on-windows/tree/first-edition-final).
+
+Every Dockerfile is in this repo, and all the images are also available on Docker Hub at the [dockeronwindows](https://hub.docker.com/r/dockeronwindows/) organization.
 
 It's a comprehensive look at running Docker on Windows, covering everything from 101 to production over 12 chapters.
 
@@ -47,7 +49,11 @@ Somewhere between the author's laptop, the publisher's content system and the pr
 
 ## Reviews
 
-* [Amazon - customer reviews for Docker on Windows](https://www.amazon.co.uk/Docker-Windows-Elton-Stoneman-ebook/dp/B0711Y4J9K#customerReviews)
+* [Amazon - customer reviews for Docker on Windows, Second Edition](https://www.amazon.com/Docker-Windows-101-production-2nd/dp/1789617375/#customerReviews)
+
+* [InfoQ - Q&A for Docker on Windows, Second Edition](https://www.infoq.com/articles/book-docker-windows-second-edition/)
+
+* [Amazon - customer reviews for Docker on Windows, First Edition](https://www.amazon.com/gp/product/1785281658/#customerReviews)
 
 * [InfoQ - Book Review Docker on Windows by Elton Stoneman](https://www.infoq.com/news/2017/08/docker-windows-elton-stoneman)
 
