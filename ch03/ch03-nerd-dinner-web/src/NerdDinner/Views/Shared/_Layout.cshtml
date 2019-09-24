@@ -60,8 +60,8 @@
 
     <script>
         function GetMap() {
-            NerdDinner.ipInfoDbKey = '@NerdDinner.Core.Config.Current["Apis:IpInfoDb:Key"]';
-            NerdDinner.BingMapsKey = '@NerdDinner.Core.Config.Current["Apis:BingMaps:Key"]';
+            NerdDinner.ipInfoDbKey = '@System.Configuration.ConfigurationManager.AppSettings["ipInfoDbKey"]';
+            NerdDinner.BingMapsKey = '@System.Configuration.ConfigurationManager.AppSettings["BingMapsKey"]';
             NerdDinner.InitMap();
             onMapLoaded();
         }
