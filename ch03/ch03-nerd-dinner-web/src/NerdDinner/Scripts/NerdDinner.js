@@ -4,6 +4,10 @@ NerdDinner._map = null;
 NerdDinner.ipInfoDbKey = '';
 NerdDinner.BingMapsKey = '';
 
+NerdDinner.InitMap = function () {
+    NerdDinner.LoadMap(null, null);
+};
+
 NerdDinner.LoadMap = function (latitude, longitude) {
     var mapOptions = {
         credentials: NerdDinner.BingMapsKey,
@@ -81,7 +85,7 @@ NerdDinner._ZoomMap = function(result) {
     }
 }
 NerdDinner._callbackForLocation = function (result) {
-    _ZoomMap(result);
+    NerdDinner._ZoomMap(result);
 
     if (result &&
            result.resourceSets &&

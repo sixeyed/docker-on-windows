@@ -4,6 +4,10 @@ NerdDinner._map = null;
 NerdDinner.ipInfoDbKey = '';
 NerdDinner.BingMapsKey = '';
 
+NerdDinner.InitMap = function () {
+    NerdDinner.LoadMap(null, null);
+};
+
 NerdDinner.LoadMap = function (latitude, longitude) {
     var mapOptions = {
         credentials: NerdDinner.BingMapsKey,
@@ -20,11 +24,13 @@ NerdDinner.LoadMap = function (latitude, longitude) {
         NerdDinner._map.setView({ center: new Microsoft.Maps.Location(latitude, longitude) });
     }
 };
+
 NerdDinner.ClearMap = function () {
     if (NerdDinner._map !== null) {
         // NerdDinner._map.entities.clear();
     }
 };
+
 NerdDinner.LoadPin = function (location, _id, _title, _description, _draggable) {
     var pinInfobox = new Microsoft.Maps.Infobox(location, { id: _id, title: _title, description: _description, visible: false });
 
@@ -81,7 +87,7 @@ NerdDinner._ZoomMap = function(result) {
     }
 }
 NerdDinner._callbackForLocation = function (result) {
-    _ZoomMap(result);
+    NerdDinner._ZoomMap(result);
 
     if (result &&
            result.resourceSets &&
