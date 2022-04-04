@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1809
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-nanoserver-1809
 
 EXPOSE 80
 WORKDIR /dinner-api

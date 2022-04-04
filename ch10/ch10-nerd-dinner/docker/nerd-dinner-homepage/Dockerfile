@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/dotnet:2.2-sdk-nanoserver-1809 AS builder
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-nanoserver-1809 AS builder
 
 WORKDIR C:\src\NerdDinner.Homepage
 COPY src\NerdDinner.Homepage\NerdDinner.Homepage.csproj .
@@ -9,7 +9,7 @@ COPY src\NerdDinner.Homepage .
 RUN dotnet publish
 
 # app image
-FROM microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1809
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-nanoserver-1809
 
 WORKDIR C:\dotnetapp
 ENV NERD_DINNER_URL="/home/find"

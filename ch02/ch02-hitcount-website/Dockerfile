@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/dotnet:2.2-sdk-nanoserver-1809 AS builder
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-nanoserver-1809 AS builder
 
 WORKDIR C:\src
 COPY src .
@@ -8,7 +8,7 @@ USER ContainerAdministrator
 RUN dotnet restore && dotnet publish
 
 # app image
-FROM microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1809
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-nanoserver-1809
 
 EXPOSE 80
 WORKDIR C:\dotnetapp

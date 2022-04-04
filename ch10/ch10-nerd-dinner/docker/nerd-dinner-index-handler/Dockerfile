@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/dotnet:2.1-sdk-nanoserver-1809 AS builder
+FROM mcr.microsoft.com/dotnet/core/sdk:2.1-nanoserver-1809 AS builder
 
 WORKDIR C:\src
 COPY src\NerdDinner.Core\NerdDinner.Core.csproj .\NerdDinner.Core\
@@ -13,7 +13,7 @@ COPY src\NerdDinner.MessageHandlers.IndexDinner .\NerdDinner.MessageHandlers.Ind
 RUN dotnet publish -c Release -o C:\index-handler .\NerdDinner.MessageHandlers.IndexDinner\NerdDinner.MessageHandlers.IndexDinner.csproj
 
 # index-handler
-FROM microsoft/dotnet:2.1-runtime-nanoserver-1809
+FROM mcr.microsoft.com/dotnet/core/runtime:2.1-nanoserver-1809
 
 CMD ["dotnet", "NerdDinner.MessageHandlers.IndexDinner.dll"]
 
