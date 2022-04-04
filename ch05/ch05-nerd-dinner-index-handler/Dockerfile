@@ -1,5 +1,5 @@
 # escape=`
-FROM microsoft/dotnet:2.1-runtime-nanoserver-1809
+FROM mcr.microsoft.com/dotnet/core/runtime:2.1-nanoserver-1809
 
 CMD ["dotnet", "NerdDinner.MessageHandlers.IndexDinner.dll"]
 
